@@ -1,0 +1,94 @@
+﻿------------------------------------------------------------------------------------------------
+
+EXPLICATIONS :
+
+
+Ceci est l'aide du command Handler que j'ai créé (je suis Ayfri), vous pouvez le partager à n'importe qui.
+Ce command handler est shardé de base (il gère les shards). Si vous voulez enlever ça, supprimez le fichier "index.js" et remettez votre token dans "main.js".
+Pour lancer le bot il faut utiliser avec nodeJS le fichier "index.js".
+Je vous conseil d'aller visiter le fichier "config.json" dans le dossier "informations" car vous pouvez modifier pas mal de choses et configurer aussi pas mal de choses.
+
+Pour dire qui aura accès aux commandes de créateurs, regardez le tableau "owners" dans le fichier "config.json".
+
+IMPORTANT : Laissez au moins 1 commande au démarrage du bot sinon il buguera (petite sécurité).
+
+
+------------------------------------------------------------------------------------------------
+
+COMMENT ON CRÉÉ UNE COMMANDE ?
+
+
+Il faut créer un fichier .JS dans le dossier "commands" puis dedans mettre le contenu de 
+"template.txt" qui se trouve dans le dossier "informations", ensuite devant le
+"serverForced" il faut mettre "true" ou "false" pour préciser si la commande est disponible
+uniquement sur server ou non.
+
+Puis avec la description, l'utilisation et l'exemple vous définissez bien une commande.
+Ces derniers vous pouvez totalement les supprimer mais ils vous seront utiles si vous voulez faire une commande "help" car vous pourrez utiliser ces derniers très facilement.
+
+
+------------------------------------------------------------------------------------------------
+
+OPTIONS DE LA COMMANDE :
+
+
+Dans "category : "" " vous devez mettre soit :
+- not-ready (commande disponible à tout le monde mais non prête)
+- owner (commande réservée à nous)
+- administration (uniquement pour les admins)
+- modération (uniquement pour ceux qui ont la perm KICK_MEMBERS)
+- utiles/fun/inforamtions/ceQueTuVeux (commandes normales)
+
+Dans "aliases : []" c'est un tableau pour mettre des raccourcis/alias, vous n'êtes pas obligé d'en mettre.
+
+Ensuite le "client" est déjà défini, le "message" aussi et le "args" c'est un tableau
+des mots que la personne a tappé. Donc si vous voulez mettre un argument à la commande c'est 
+par exemple :
+
+if(args[0] == "oui") {
+	return message.channel.send("lol");
+}
+
+------------------------------------------------------------------------------------------------
+
+COMMENT ON CRÉÉ UN ÉVÈNEMENT ?
+
+
+Il faut créer un fichier .JS dans le dossier "events" puis dedans mettre le contenu de 
+"template.txt" qui se trouve dans le dossier "informations".
+
+------------------------------------------------------------------------------------------------
+
+DIVERS :
+
+Il y a une méthode dans la variable "client" qui permet d'enregistrer des fichiers
+(comme fs.writeFile()) mais sans utiliser fs, la syntaxe est : client.writeFile(chemin, objet).
+Il y a dans la méthode un JSON.stringify(objet, null, 4) au moment d'enregistrer. 
+
+Pour importer un module/fichier, le chemin de destination est :
+
+const module = require("../module");
+const fichier = require("../informations/fichier.json");
+
+Et pour utiliser un fichier/module dans le .run il faut juste :
+
+const module = require("./truc");
+
+
+------------------------------------------------------------------------------------------------
+
+INFORMATIONS :
+
+
+Ce command handler utilise la librairie Enmap (qui doit utiliser aussi better-sqlite), je vous conseil d'aller voir la liste des librairies, certaines pourraient être utiles.
+Un dernier petit conseil à la va vite, si vous galérez à afficher des dates avec des formats, utilisez la librairie "moment" ^^
+
+Mon bot discord principal utilisant ce command handler : https://discordapp.com/oauth2/authorize?client_id=537534757668651009&scope=bot&permissions=8
+Le serveur de support de bot discord : https://discord.gg/n7HWd4P
+
+Mon tag discord si vous voulez de l'aide : Ayfri#0453
+------------------------------------------------------------------------------------------------
+
+
+
+Lien du Command Handler : https://mega.nz/#!2VQGjCrC!FoYoUVDP2ZDcIM8CCBkxOn6LpceHk7E2C4Ozi0iQaEc

@@ -1,0 +1,13 @@
+{
+    "token": "",
+    "owners": [""],
+    "ytapikey": "",
+    "db": {
+        "host": "",
+        "name": "",
+        "username": "",
+        "password": ""
+    }
+
+
+}

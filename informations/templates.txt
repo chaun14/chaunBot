@@ -1,0 +1,26 @@
+COMMANDE :
+
+module.exports.run = async (client, message, args) => {
+	
+}
+
+module.exports.config = {
+	category: "not-ready",
+	name: __filename.slice(__dirname.length + 1, __filename.length - 3),
+	aliases: [],
+	serverForced:
+}
+
+module.exports.help = {
+	description: "",
+	utilisations: ``,
+	exemples: ``
+}
+
+------------------------------------------------------------------------------------------------
+
+ÉVÉNEMENT :
+
+module.exports = async (client, arguments de l'événement) => {
+	
+}
