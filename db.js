@@ -1,27 +1,37 @@
 var mysql = require('mysql');
 const config = require("./informations/config");
 
-const connection = mysql.createConnection({
+var dbinfos = {
   host: config.db.host,
   user: config.db.username,
   password: config.db.password,
   database: config.db.name,
   charset : 'utf8mb4_bin'
-});
+};
 
-connection.connect(function (err) {
-  if (err) {
-    console.error('error connecting: ' + err.stack);
-    return;
-  }
+function handleDisconnect() {
+  console.log("Connexion à la bdd")
+    connection = mysql.createConnection(dbinfos);  // Recreate the connection, since the old one cannot be reused.
+    connection.connect( function onConnect(err) {   // The server is either down
+        if (err) {                                  // or restarting (takes a while sometimes).
+            console.log('error when connecting to db:', err);
+            setTimeout(handleDisconnect, 10000);    // We introduce a delay before attempting to reconnect,
+        }           
+        console.log('connected as id ' + connection.threadId);                                
+                                                    // to avoid a hot loop, and to allow our node script to
+    });                                             // process asynchronous requests in the meantime.
+                                                    // If you're also serving http, display a 503 error.
+    connection.on('error', function onError(err) {
+        console.log('db error', err);
+        if (err.code == 'PROTOCOL_CONNECTION_LOST') {   // Connection to the MySQL server is usually
+            handleDisconnect();                         // lost due to either server restart, or a
+        } else {                                        // connnection idle timeout (the wait_timeout
+            throw err;                                  // server variable configures this)
+        }
+    });
+}
+handleDisconnect();
 
-  console.log('connected as id ' + connection.threadId);
-});
-
-connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
-  if (error) throw error;
-  console.log(results);
-});
 
 
 
