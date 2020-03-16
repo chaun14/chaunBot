@@ -29,7 +29,7 @@ console.log(user)
     FROM
     userNameLogger
     WHERE
-    userId = '${SqlString.escape(args[0])}'
+    userId = ${SqlString.escape(args[0])}
     ORDER BY updateDate ASC
     `
          
