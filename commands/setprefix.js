@@ -8,7 +8,7 @@ module.exports.run = async (client, message, args) => {
         return message.reply("veuillez préciser un préfixe \nExemple: `c!setprefix /`")
     }
 
-    let setPrefix = `UPDATE guildSettings SET prefix = '${SqlString.escape(args[0])}' WHERE guildSettings.guildId = '${message.guild.id}';`;
+    let setPrefix = `UPDATE guildSettings SET prefix = ${SqlString.escape(args[0])} WHERE guildSettings.guildId = '${message.guild.id}';`;
     db.query(setPrefix, function (err, results, fields) {
         if (err) {
             console.log(err.message);
