@@ -16,7 +16,7 @@ client.user.setActivity(`bientôt de retour`, { type: 'STREAMING', url: 'https:/
 
 console.log('\n_________ .__                       __________        __   \n\\_   ___ \\|  |__ _____   __ __  ____\\______   \\ _____\/  |_ \n\/    \\  \\\/|  |  \\\\__  \\ |  |  \\\/    \\|    |  _\/\/  _ \\   __\\\n\\     \\___|   Y  \\\/ __ \\|  |  \/   |  \\    |   (  <_> )  |  \n \\______  \/___|  (____  \/____\/|___|  \/______  \/\\____\/|__|  \n        \\\/     \\\/     \\\/           \\\/       \\\/             \n')
 
-//updateUsername(client, db)
+updateUsername(client, db)
 
 }
 
