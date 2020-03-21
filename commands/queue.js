@@ -4,7 +4,7 @@ const music = require("../music.js")
 
 module.exports.run = async (client, message, args) => {
   
-    music.queuecmd(message,args)
+    music.queuecmd(client, message,args)
   
 }
 

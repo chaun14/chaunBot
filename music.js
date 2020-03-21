@@ -3,6 +3,8 @@ const ytdl = require('ytdl-core');
 const ffmpeg = require('ffmpeg');
 const ffmpeg2 = require('ffmpeg-binaries');
 
+const Discord = require("discord.js");
+const hastebin = require("hastebin-gen");
 const { client, Util } = require('discord.js');
 const config = require("./informations/config");
 const youtube = new YouTube(config.ytapikey);
@@ -48,14 +50,37 @@ async function skipcmd(message, args){
 		serverQueue.connection.dispatcher.end('Skip command has been used!');
 }
 
-async function queuecmd(message, args){
+async function queuecmd(client, message, args){
     const serverQueue = queue.get(message.guild.id);
-	if (!serverQueue) return message.channel.send('There is nothing playing.');
-		return message.channel.send(`
+	if (!serverQueue) return message.channel.send('Je n\'ai rien à lire');
+		let queuemsg = (`
 __**Song queue:**__
 ${serverQueue.songs.map(song => `**-** ${song.title}`).join('\n')}
 **Now playing:** ${serverQueue.songs[0].title}
-		`);
+        `);
+
+        if (queuemsg.length >= 1000) {
+            hastebin(queuemsg, { extension: "txt", url: "https://haste.chaun14.fr" }).then(haste => {
+                let embed = new Discord.RichEmbed();
+                embed.setFooter(client.user.username, client.user.displayAvatarURL);
+                embed.setTimestamp();
+                embed.setColor("#dd0000");
+                embed.setAuthor("File d'attente")
+                embed.setDescription(haste)
+                message.channel.send(embed)
+        })
+        } else {
+            let embed = new Discord.RichEmbed();
+            embed.setFooter(client.user.username, client.user.displayAvatarURL);
+            embed.setTimestamp();
+            embed.setColor("#dd0000");
+            embed.setAuthor("File d'attente")
+            embed.setDescription(queuemsg)
+            message.channel.send(embed)
+        }
+
+        
+      
 }
 
 async function nowplayingcmd(message, args){
@@ -65,6 +90,7 @@ async function nowplayingcmd(message, args){
 }
 
 async function stopcmd(message, args){
+ 
     const serverQueue = queue.get(message.guild.id);
     if (!message.member.voiceChannel) return message.channel.send('You are not in a voice channel!');
     if (!serverQueue) return message.channel.send('There is nothing playing that I could stop for you.');
@@ -73,7 +99,7 @@ async function stopcmd(message, args){
     return undefined;
 }
 
-async function playcmd(message, args) {
+async function playcmd(client, message, args) {
     var searchString = args.join('');
     //  console.log(args)
     /*
@@ -97,13 +123,22 @@ async function playcmd(message, args) {
 
     if (url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
         const playlist = await youtube.getPlaylist(url);
-        //   console.log(playlist)
+       // console.log(playlist)
         const videos = await playlist.getVideos();
         for (const video of Object.values(videos)) {
             const video2 = await youtube.getVideoByID(video.id); // eslint-disable-line no-await-in-loop
-            handleVideo(video2, message, voiceChannel, true); // eslint-disable-line no-await-in-loop
+            handleVideo(client, video2, message, voiceChannel, true); // eslint-disable-line no-await-in-loop
         }
-        return message.channel.send(`✅ Playlist: **${playlist.title}** has been added to the queue!`);
+
+        let embed = new Discord.RichEmbed();
+        embed.setFooter(client.user.username, client.user.displayAvatarURL);
+        embed.setTimestamp();
+        embed.setColor("#dd0000");
+        embed.setAuthor("Musique")
+        embed.setDescription(`✅ La Playlist: **${playlist.title}** à bien été ajoutée à la file d'attente!`)
+        
+
+        return message.channel.send(embed)
     } else {
         try {
             var video = await youtube.getVideo(url);
@@ -137,7 +172,7 @@ Please provide a value to select one of the search results ranging from 1-10.
                 return message.channel.send('🆘 I could not obtain any search results.');
             }
         }
-        return handleVideo(video, message, voiceChannel);
+        return handleVideo(client, video, message, voiceChannel);
     }
 
 
@@ -150,7 +185,7 @@ Please provide a value to select one of the search results ranging from 1-10.
 
 /* ----------------------------------- fonctions pour musique -----------------------------------*/
 
-async function handleVideo(video, message, voiceChannel, playlist = false) {
+async function handleVideo(client, video, message, voiceChannel, playlist = false) {
     const serverQueue = queue.get(message.guild.id);
    // console.log(video);
     const song = {
@@ -174,7 +209,7 @@ async function handleVideo(video, message, voiceChannel, playlist = false) {
         try {
             var connection = await voiceChannel.join();
             queueConstruct.connection = connection;
-            play(message.guild, queueConstruct.songs[0]);
+            play(client, message.guild, queueConstruct.songs[0]);
         } catch (error) {
             console.error(`I could not join the voice channel: ${error}`);
             queue.delete(message.guild.id);
@@ -182,14 +217,25 @@ async function handleVideo(video, message, voiceChannel, playlist = false) {
         }
     } else {
         serverQueue.songs.push(song);
+      //  console.log(song)
        // console.log(serverQueue.songs);
         if (playlist) return undefined;
-        else return message.channel.send(`✅ **${song.title}** has been added to the queue!`);
+        else {
+            let embed = new Discord.RichEmbed();
+            embed.setFooter(client.user.username, client.user.displayAvatarURL);
+            embed.setTimestamp();
+            embed.setColor("#dd0000");
+            embed.setAuthor("Musique")
+            embed.setDescription(`✅ La vidéo **${song.title}** à bien été ajoutée à la file d'attente!`)
+            message.channel.send(embed);
+            
+            return
+        } 
     }
     return undefined;
 }
 
-function play(guild, song) {
+function play(client, guild, song) {
     const serverQueue = queue.get(guild.id);
 
     if (!song) {
@@ -208,8 +254,15 @@ function play(guild, song) {
         })
         .on('error', error => console.error(error));
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+      //  console.log(song)
+      let embed = new Discord.RichEmbed();
+      embed.setFooter(client.user.username, client.user.displayAvatarURL);
+      embed.setTimestamp();
+      embed.setColor("#dd0000");
 
-    serverQueue.textChannel.send(`🎶 Start playing: **${song.title}**`);
+      embed.setDescription(`🎶 Start playing: **${song.title}**`)
+ 
+    serverQueue.textChannel.send(embed);
 }
 
 

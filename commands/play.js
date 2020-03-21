@@ -4,7 +4,7 @@ const music = require("../music.js")
 
 module.exports.run = async (client, message, args) => {
   
-    music.playcmd(message,args)
+    music.playcmd(client, message,args)
   
 }
 
