@@ -1,7 +1,8 @@
 {
     "token": "",
-    "owners": [""],
+    "owners": ["youridhere"],
     "ytapikey": "",
+    "logWebhook":"awebhookfromaprivatechannelhere",
     "db": {
         "host": "",
         "name": "",
