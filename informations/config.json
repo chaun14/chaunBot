@@ -2,9 +2,9 @@
     "token": "",
     "owners": ["youridhere"],
     "ytapikey": "",
-    "logWebhook":"awebhookfromaprivatechannelhere",
+    "logWebhook": "awebhookfromaprivatechannelhere",
     "db": {
-        "host": "",
+        "host": "localhost",
         "name": "",
         "username": "",
         "password": ""

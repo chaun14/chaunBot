@@ -5,6 +5,9 @@ const chalk = require("chalk");
 const client = new Discord.Client();
 
 const configBOT = require("./informations/config");
+const webhook = require('discord-webhook-node');
+const hook = new webhook.Webhook(configBOT.logWebhook);
+
 
 client.login(configBOT.token);
 client.writeFile = (path, object) => {
@@ -74,7 +77,12 @@ fs.readdir("./commands/", (err, files) => {
 	console.log(chalk.white(`Chargement total de `)+chalk.magenta.bold(`${numberFiles}`)+chalk.white(` fichiers dont ${chalk.magenta.bold(commands)} commandes et ${chalk.magenta.bold(events)} évènements.`));
 });
 
-client.on("error", (e) => console.error(e));
+client.on("error", (e) => {
+	hook.error('**Bot error**', 'quelque chose s\'est mal passé avec le bot', e.message).catch(err => console.log(err.message));
+	console.error(e)
+
+
+});
 client.on("warn", (e) => console.warn(e));
 //client.on("debug", (e) => console.info(e));
 

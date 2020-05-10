@@ -1,21 +1,46 @@
 {
     "dependencies": {
+        "@discordjs/opus": "^0.3.2",
         "better-sqlite-pool": "^0.2.3",
         "chalk": "~2.4.2",
         "cpu-stat": "^2.0.1",
-        "discord-webhook-node": "^1.0.5",
-        "discord.js": "~11.4.2",
+        "discord-webhook-node": "^1.0.7",
+        "discord.js": "^12.2.0",
         "enmap": "^4.8.7",
-        "ffmpeg": "0.0.4",
-        "ffmpeg-binaries": "^4.0.0",
+        "ffmpeg-static": "^4.2.1",
         "hastebin-gen": "^2.0.5",
         "moment": "~2.24.0",
         "moment-duration-format": "^2.3.2",
         "ms": "^2.1.2",
         "mysql": "^2.18.1",
-        "opusscript": "0.0.7",
         "simple-youtube-api": "^5.2.1",
-        "sqlstring": "^2.3.1",
+        "sqlstring": "^2.3.2",
         "ytdl-core": "^1.0.9"
-    }
+    },
+    "name": "chaunbot",
+    "version": "2.0.0",
+    "main": "index.js",
+    "devDependencies": {},
+    "scripts": {
+        "test": "node main.js",
+        "start": "node index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/chaun14/chaunBot.git"
+    },
+    "keywords": [
+        "discord",
+        "bot",
+        "mysql",
+        "music",
+        "setprefix"
+    ],
+    "author": "chaun14",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/chaun14/chaunBot/issues"
+    },
+    "homepage": "https://github.com/chaun14/chaunBot#readme",
+    "description": ""
 }

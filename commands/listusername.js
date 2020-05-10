@@ -4,7 +4,7 @@ const moment = require("moment");
 const hastebin = require("hastebin-gen");
 var SqlString = require('sqlstring');
 
-module.exports.run = async (client, message, args) => {
+module.exports.run = async(client, message, args) => {
 
     let user = message.mentions.members.first();
 
@@ -13,8 +13,8 @@ module.exports.run = async (client, message, args) => {
         message.reply("Veuillez mentionner quelqu'un")
         return
     }
-console.log(user)
-    if (user == undefined){
+    console.log(user)
+    if (user == undefined) {
 
 
 
@@ -29,13 +29,13 @@ console.log(user)
     FROM
     userNameLogger
     WHERE
-    userId = ${SqlString.escape(args[0])}
+    userId = '${SqlString.escape(args[0])}'
     ORDER BY updateDate ASC
     `
-         
+
             let pseudos = "";
-            
-            db.query(searchOldPseudos, function (err, results, fields) {
+
+            db.query(searchOldPseudos, function(err, results, fields) {
                 if (err) {
                     console.log(err.message);
                 }
@@ -44,46 +44,46 @@ console.log(user)
                     msg.edit("❌ Désolé cet id n'est pas dans ma base de données")
                     return
                 }
-                
+
                 results.forEach(pseudo => {
-                    
+
                     // console.log(pseudo.newUsername)
-    
+
                     //message.reply(pseudo.newUsername)
                     pseudos = pseudos + "`" + pseudo.newUsername + "` *changé le " + moment(pseudo.updateDate).format("D/MM/YY à HH:mm") + "*\n"
                 });
                 var hasteLink = "erreur";
-                
+
                 if (pseudos.length >= 1000) {
-    
+
                     hastebin(pseudos, { extension: "txt", url: "https://haste.chaun14.fr" }).then(haste => {
-                   //  console.log(haste)
-                     hasteLink == haste
-                     let pseudoEmbed = new Discord.RichEmbed();
-                     pseudoEmbed.setFooter(client.user.username, client.user.displayAvatarURL);
-                     pseudoEmbed.setTimestamp();
-                     pseudoEmbed.setColor("#dd0000");
-                     pseudoEmbed.setAuthor("UsernameLogger")
-                     pseudoEmbed.setDescription("__**Anciens pseudo de**__ "+ args[0] +":\n\n" + haste + "")
-                     msg.edit(pseudoEmbed)
+                        //  console.log(haste)
+                        hasteLink == haste
+                        let pseudoEmbed = new Discord.MessageEmbed();
+                        pseudoEmbed.setFooter(client.user.username, client.user.displayAvatarURL);
+                        pseudoEmbed.setTimestamp();
+                        pseudoEmbed.setColor("#dd0000");
+                        pseudoEmbed.setAuthor("UsernameLogger")
+                        pseudoEmbed.setDescription("__**Anciens pseudo de**__ " + args[0] + ":\n\n" + haste + "")
+                        msg.edit(pseudoEmbed)
                     }).catch(error => {
                         // Handle error
                         console.error(error)
-                       
-                });  
+
+                    });
                 } else {
-                    let pseudoEmbed = new Discord.RichEmbed();
+                    let pseudoEmbed = new Discord.MessageEmbed();
                     pseudoEmbed.setFooter(client.user.username, client.user.displayAvatarURL);
                     pseudoEmbed.setTimestamp();
                     pseudoEmbed.setColor("#dd0000");
                     pseudoEmbed.setAuthor("UsernameLogger")
-                  
-                    pseudoEmbed.setDescription("__**Anciens pseudo de**__ "+ args[0] +":\n\n" + pseudos + "")
+
+                    pseudoEmbed.setDescription("__**Anciens pseudo de**__ " + args[0] + ":\n\n" + pseudos + "")
                     msg.edit(pseudoEmbed)
                 }
-               
+
             });
-    
+
         })
 
 
@@ -103,12 +103,12 @@ console.log(user)
 
 
 
-    message.channel.send("Je cherche par mention... ⏳").then(msg => {
+        message.channel.send("Je cherche par mention... ⏳").then(msg => {
 
 
 
 
-        let searchOldPseudos = `SELECT
+            let searchOldPseudos = `SELECT
 *
 FROM
 userNameLogger
@@ -116,60 +116,60 @@ WHERE
 userId = '${user.id}'
 ORDER BY updateDate ASC
 `
-     
-        let pseudos = "";
-        
-        db.query(searchOldPseudos, function (err, results, fields) {
-            if (err) {
-                console.log(err.message);
-            }
-            //  console.log(results)
-            if (results == undefined || results[0] == undefined) {
-                msg.edit("❌ Désolé cette personne n'est pas dans ma base de données")
-                return
-            }
-            
-            results.forEach(pseudo => {
-                
-                // console.log(pseudo.newUsername)
 
-                //message.reply(pseudo.newUsername)
-                pseudos = pseudos + "`" + pseudo.newUsername + "` *changé le " + moment(pseudo.updateDate).format("D/MM/YY à HH:mm") + "*\n"
+            let pseudos = "";
+
+            db.query(searchOldPseudos, function(err, results, fields) {
+                if (err) {
+                    console.log(err.message);
+                }
+                //  console.log(results)
+                if (results == undefined || results[0] == undefined) {
+                    msg.edit("❌ Désolé cette personne n'est pas dans ma base de données")
+                    return
+                }
+
+                results.forEach(pseudo => {
+
+                    // console.log(pseudo.newUsername)
+
+                    //message.reply(pseudo.newUsername)
+                    pseudos = pseudos + "`" + pseudo.newUsername + "` *changé le " + moment(pseudo.updateDate).format("D/MM/YY à HH:mm") + "*\n"
+                });
+                var hasteLink = "erreur";
+
+                if (pseudos.length >= 1000) {
+
+                    hastebin(pseudos, { extension: "txt", url: "https://haste.chaun14.fr" }).then(haste => {
+                        //  console.log(haste)
+                        hasteLink == haste
+                        let pseudoEmbed = new Discord.MessageEmbed();
+                        pseudoEmbed.setFooter(client.user.username, client.user.displayAvatarURL);
+                        pseudoEmbed.setTimestamp();
+                        pseudoEmbed.setColor("#dd0000");
+                        pseudoEmbed.setAuthor("UsernameLogger")
+                        pseudoEmbed.setDescription("__**Anciens pseudo de**__ <@" + user.id + ">(" + user.user.username + "):\n\n" + haste + "")
+                        msg.edit(pseudoEmbed)
+                    }).catch(error => {
+                        // Handle error
+                        console.error(error)
+
+                    });
+                } else {
+                    let pseudoEmbed = new Discord.MessageEmbed();
+                    pseudoEmbed.setFooter(client.user.username, client.user.displayAvatarURL);
+                    pseudoEmbed.setTimestamp();
+                    pseudoEmbed.setColor("#dd0000");
+                    pseudoEmbed.setAuthor("UsernameLogger")
+
+                    pseudoEmbed.setDescription("__**Anciens pseudo de**__ <@" + user.id + ">(" + user.user.username + "):\n\n" + pseudos + "")
+                    msg.edit(pseudoEmbed)
+                }
+
             });
-            var hasteLink = "erreur";
-            
-            if (pseudos.length >= 1000) {
 
-                hastebin(pseudos, { extension: "txt", url: "https://haste.chaun14.fr" }).then(haste => {
-               //  console.log(haste)
-                 hasteLink == haste
-                 let pseudoEmbed = new Discord.RichEmbed();
-                 pseudoEmbed.setFooter(client.user.username, client.user.displayAvatarURL);
-                 pseudoEmbed.setTimestamp();
-                 pseudoEmbed.setColor("#dd0000");
-                 pseudoEmbed.setAuthor("UsernameLogger")
-                 pseudoEmbed.setDescription("__**Anciens pseudo de**__ <@"+ user.id +">(" + user.user.username + "):\n\n" + haste + "")
-                 msg.edit(pseudoEmbed)
-                }).catch(error => {
-                    // Handle error
-                    console.error(error)
-                   
-            });  
-            } else {
-                let pseudoEmbed = new Discord.RichEmbed();
-                pseudoEmbed.setFooter(client.user.username, client.user.displayAvatarURL);
-                pseudoEmbed.setTimestamp();
-                pseudoEmbed.setColor("#dd0000");
-                pseudoEmbed.setAuthor("UsernameLogger")
-              
-                pseudoEmbed.setDescription("__**Anciens pseudo de**__ <@"+ user.id +">(" + user.user.username + "):\n\n" + pseudos + "")
-                msg.edit(pseudoEmbed)
-            }
-           
-        });
-
-    })
-}
+        })
+    }
 }
 
 

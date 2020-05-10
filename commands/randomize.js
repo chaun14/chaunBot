@@ -4,7 +4,7 @@ const music = require("../music.js")
 
 module.exports.run = async(client, message, args) => {
 
-    music.skipcmd(client, message, args)
+    music.randomize(message, args)
 
 }
 
@@ -12,12 +12,12 @@ module.exports.run = async(client, message, args) => {
 module.exports.config = {
     category: "Musique",
     name: __filename.slice(__dirname.length + 1, __filename.length - 3),
-    aliases: ["sk"],
+    aliases: ["rdm"],
     serverForced: false
 }
 
 module.exports.help = {
-    description: "Passe à la chanson suivante",
-    utilisations: `skip`,
-    exemples: `c!skip`
+    description: "Mélange la file d'attente",
+    utilisations: `randomize`,
+    exemples: `c!randomize`
 }

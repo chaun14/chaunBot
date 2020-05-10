@@ -2,10 +2,10 @@ const db = require("../db.js")
 const Discord = require("discord.js");
 const music = require("../music.js")
 
-module.exports.run = async (client, message, args) => {
-  
-    music.stopcmd(message,args)
-  
+module.exports.run = async(client, message, args) => {
+
+    music.stopcmd(message, args)
+
 }
 
 
