@@ -10,7 +10,7 @@ module.exports = async(client, message) => {
     /* ------------------------------ Début système préfixe ------------------------------*/
 
     if (message.guild == null && message.author.bot == false) {
-        message.reply("désolé je ne prend pas les mp")
+        //  message.reply("désolé je ne prend pas les mp")
         return
     }
 
