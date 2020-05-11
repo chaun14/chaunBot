@@ -155,8 +155,9 @@ async function playcmd(client, message, args) {
     } else {
         try {
             video = await youtube.getVideo(url);
+           
         } catch (error) {
-
+            
             try {
                 videos = await youtube.searchVideos(searchString, 10);
                 let index = 0;
@@ -196,7 +197,7 @@ Choisissez la musique avec un nombre entre 1 et 10.
                 return message.channel.send("🆘 Désolé j'ai fouillé jusqu'au plus profond de youtube sans résultats");
             }
         }
-       
+        handleVideo(client, video, message, voiceChannel);
     }
 
 
@@ -270,13 +271,14 @@ function play(client, guild, song) {
     //console.log(serverQueue.songs);
 
     const dispatcher = serverQueue.connection.play(ytdl(song.url))
-        .on('end', reason => {
-     
+        .on('finish', reason => {
+         
             if (reason === 'Stream is not generating quickly enough.') console.log('Song ended.');
 
-            else console.log(reason);
-
-           
+        
+            serverQueue.songs.shift();
+            play(client, guild, serverQueue.songs[0])
+            
         })
         .on('error', error => console.error(error));
 
