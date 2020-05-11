@@ -14,6 +14,7 @@
         "moment-duration-format": "^2.3.2",
         "ms": "^2.1.2",
         "mysql": "^2.18.1",
+        "nodeactyl": "^2.0.2",
         "simple-youtube-api": "^5.2.1",
         "sqlstring": "^2.3.2",
         "ytdl-core": "^1.0.9"
