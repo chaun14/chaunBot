@@ -14,6 +14,8 @@ module.exports = async(client, message) => {
         return
     }
 
+
+    if (message.author.bot) return
     var customPrefix = "c!";
     let getGuildSetting = `SELECT * FROM guildSettings WHERE guildId = '${message.guild.id}';`;
 

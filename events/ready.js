@@ -1,4 +1,5 @@
 ﻿const config = require("../informations/config");
+const colors = require('colors');
 const colorchalk = require("chalk");
 const Discord = require("discord.js");
 const chalk = new colorchalk.constructor({ level: 3 });
@@ -14,9 +15,9 @@ module.exports = async(client) => {
 
 
 
-    console.log('\n_________ .__                       __________        __   \n\\_   ___ \\|  |__ _____   __ __  ____\\______   \\ _____\/  |_ \n\/    \\  \\\/|  |  \\\\__  \\ |  |  \\\/    \\|    |  _\/\/  _ \\   __\\\n\\     \\___|   Y  \\\/ __ \\|  |  \/   |  \\    |   (  <_> )  |  \n \\______  \/___|  (____  \/____\/|___|  \/______  \/\\____\/|__|  \n        \\\/     \\\/     \\\/           \\\/       \\\/             \n')
+    console.log('\n_________ .__                       __________        __   \n\\_   ___ \\|  |__ _____   __ __  ____\\______   \\ _____\/  |_ \n\/    \\  \\\/|  |  \\\\__  \\ |  |  \\\/    \\|    |  _\/\/  _ \\   __\\\n\\     \\___|   Y  \\\/ __ \\|  |  \/   |  \\    |   (  <_> )  |  \n \\______  \/___|  (____  \/____\/|___|  \/______  \/\\____\/|__|  \n        \\\/     \\\/     \\\/           \\\/       \\\/             \n'.brightWhite.bold)
 
-    updateUsername(client, db)
+    //updateUsername(client, db)
 
 }
 
