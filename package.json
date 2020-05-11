@@ -3,6 +3,7 @@
         "@discordjs/opus": "^0.3.2",
         "better-sqlite-pool": "^0.2.3",
         "chalk": "~2.4.2",
+        "colors": "^1.4.0",
         "cpu-stat": "^2.0.1",
         "discord-webhook-node": "^1.0.7",
         "discord.js": "^12.2.0",
