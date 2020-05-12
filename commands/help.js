@@ -17,7 +17,7 @@ module.exports.run = async(client, message, args, prefixes) => {
 
         let embed = new Discord.MessageEmbed();
         embed.setDescription("Commande help \n Mon préfixe sur ce serveur est `" + "c!" + "` ou `" + results[0].prefix + "`");
-        embed.setFooter(client.user.username, client.user.displayAvatarURL);
+        embed.setFooter(client.user.username, client.user.avatarURL());
         embed.setTimestamp();
         embed.setColor(thecolor);
 

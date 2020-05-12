@@ -33,7 +33,7 @@ module.exports = async(client, oldPresence, newPresence) => {
             const embed = new MessageBuilder()
                 .setAuthor("💢 Monitor offline")
                 .setDescription(`Votre bot <@${newPresence.member.id}> est passé offline sur le serveur ${newPresence.guild}\n*Si il est encore offline dans une minute, il sera redémarré*`)
-                .setFooter(client.user.username, client.user.displayAvatarURL)
+                .setFooter(client.user.username, client.user.avatarURL())
                 .setTimestamp()
                 .setColor(3553599)
 
@@ -49,7 +49,7 @@ module.exports = async(client, oldPresence, newPresence) => {
                     const embed2 = new MessageBuilder()
                         .setAuthor("💥 Redémarrage")
                         .setDescription(`Votre bot <@${newPresence.member.id}> ne s'est pas reconnecté. Je vais devoir le redémarrer`)
-                        .setFooter(client.user.username, client.user.displayAvatarURL)
+                        .setFooter(client.user.username, client.user.avatarURL())
                         .setTimestamp()
                         .setColor(3553599)
 
@@ -62,7 +62,7 @@ module.exports = async(client, oldPresence, newPresence) => {
                             const embed3 = new MessageBuilder()
                                 .setAuthor(":x: Erreur")
                                 .setDescription(`Je ne parviens pas à redémarrer <@${newPresence.member.id}> merci de vérifier l'url du panel et la clé api.`)
-                                .setFooter(client.user.username, client.user.displayAvatarURL)
+                                .setFooter(client.user.username, client.user.avatarURL())
                                 .setTimestamp()
                                 .setColor(3553599)
 
@@ -75,7 +75,7 @@ module.exports = async(client, oldPresence, newPresence) => {
                                 const embed4 = new MessageBuilder()
                                     .setAuthor("♻ Redémarrage lancé")
                                     .setDescription(`Votre bot <@${newPresence.member.id}> est en cours de redémarrage.`)
-                                    .setFooter(client.user.username, client.user.displayAvatarURL)
+                                    .setFooter(client.user.username, client.user.avatarURL())
                                     .setTimestamp()
                                     .setColor(3553599)
 
@@ -85,7 +85,7 @@ module.exports = async(client, oldPresence, newPresence) => {
                                 const embed5 = new MessageBuilder()
                                     .setAuthor(":x: Erreur")
                                     .setDescription(`Je ne parviens pas à redémarrer <@${newPresence.member.id}> merci de vérifier l'id du serveur.`)
-                                    .setFooter(client.user.username, client.user.displayAvatarURL)
+                                    .setFooter(client.user.username, client.user.avatarURL())
                                     .setTimestamp()
                                     .setColor(3553599)
 
@@ -134,7 +134,7 @@ module.exports = async(client, oldPresence, newPresence) => {
             const embed = new MessageBuilder()
                 .setAuthor("✅ Monitor en ligne")
                 .setDescription(`Votre bot <@${newPresence.member.id}> est passé en ligne sur le serveur ${newPresence.guild}`)
-                .setFooter(client.user.username, client.user.displayAvatarURL)
+                .setFooter(client.user.username, client.user.avatarURL())
                 .setTimestamp()
                 .setColor(3553599)
 

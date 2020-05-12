@@ -72,7 +72,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join('\n')}
         if (queuemsg.length >= 1000) {
             hastebin(queuemsg, { extension: "txt", url: "https://haste.chaun14.fr" }).then(haste => {
                 let embed = new Discord.MessageEmbed();
-                embed.setFooter(client.user.username, client.user.displayAvatarURL);
+                embed.setFooter(client.user.username, client.user.avatarURL());
                 embed.setTimestamp();
                 embed.setColor("#dd0000");
                 embed.setAuthor("File d'attente")
@@ -81,7 +81,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join('\n')}
         })
         } else {
             let embed = new Discord.MessageEmbed();
-            embed.setFooter(client.user.username, client.user.displayAvatarURL);
+            embed.setFooter(client.user.username, client.user.avatarURL());
             embed.setTimestamp();
             embed.setColor("#dd0000");
             embed.setAuthor("File d'attente")
@@ -111,6 +111,7 @@ async function stopcmd(message, args){
 }
 
 async function playcmd(client, message, args) {
+    message.delete().catch(O_o => {});
     var searchString = args.join('');
     //  console.log(args)
     /*
@@ -143,7 +144,7 @@ async function playcmd(client, message, args) {
         }
 
         let embed = new Discord.MessageEmbed();
-        embed.setFooter(client.user.username, client.user.displayAvatarURL);
+        embed.setFooter(client.user.username, client.user.avatarURL());
         embed.setTimestamp();
         embed.setColor("#dd0000");
         embed.setAuthor("Musique")
@@ -247,7 +248,7 @@ async function handleVideo(client, video, message, voiceChannel, playlist = fals
         if (playlist) return undefined;
         else {
             let embed = new Discord.MessageEmbed();
-            embed.setFooter(client.user.username, client.user.displayAvatarURL);
+            embed.setFooter(client.user.username, client.user.avatarURL());
             embed.setTimestamp();
             embed.setColor("#dd0000");
             embed.setAuthor("Musique")
@@ -285,7 +286,7 @@ function play(client, guild, song) {
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
    
       let embed = new Discord.MessageEmbed();
-      embed.setFooter(client.user.username, client.user.displayAvatarURL);
+      embed.setFooter(client.user.username, client.user.avatarURL());
       embed.setTimestamp();
       embed.setColor("#dd0000");
 

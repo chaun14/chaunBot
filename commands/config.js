@@ -45,7 +45,7 @@ module.exports.run = async(client, message, args) => {
                 let embed = new Discord.MessageEmbed();
                 embed.setAuthor("✅ Succès");
                 embed.setDescription("Le rôle <@&" + role.id + "> sera donné aux nouveaux arrivant du serveur\n\n*Pensez à mettre mon rôle au dessus du rôle à attribuer afin que je puisse le donner sans problèmes*")
-                embed.setFooter(client.user.username, client.user.displayAvatarURL);
+                embed.setFooter(client.user.username, client.user.avatarURL());
                 embed.setTimestamp();
                 embed.setColor("#36393f");
                 message.channel.send(embed)

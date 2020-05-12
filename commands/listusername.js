@@ -60,7 +60,7 @@ module.exports.run = async(client, message, args) => {
                         //  console.log(haste)
                         hasteLink == haste
                         let pseudoEmbed = new Discord.MessageEmbed();
-                        pseudoEmbed.setFooter(client.user.username, client.user.displayAvatarURL);
+                        pseudoEmbed.setFooter(client.user.username, client.user.avatarURL());
                         pseudoEmbed.setTimestamp();
                         pseudoEmbed.setColor("#dd0000");
                         pseudoEmbed.setAuthor("UsernameLogger")
@@ -73,7 +73,7 @@ module.exports.run = async(client, message, args) => {
                     });
                 } else {
                     let pseudoEmbed = new Discord.MessageEmbed();
-                    pseudoEmbed.setFooter(client.user.username, client.user.displayAvatarURL);
+                    pseudoEmbed.setFooter(client.user.username, client.user.avatarURL());
                     pseudoEmbed.setTimestamp();
                     pseudoEmbed.setColor("#dd0000");
                     pseudoEmbed.setAuthor("UsernameLogger")
@@ -144,7 +144,7 @@ ORDER BY updateDate ASC
                         //  console.log(haste)
                         hasteLink == haste
                         let pseudoEmbed = new Discord.MessageEmbed();
-                        pseudoEmbed.setFooter(client.user.username, client.user.displayAvatarURL);
+                        pseudoEmbed.setFooter(client.user.username, client.user.avatarURL());
                         pseudoEmbed.setTimestamp();
                         pseudoEmbed.setColor("#dd0000");
                         pseudoEmbed.setAuthor("UsernameLogger")
@@ -157,7 +157,7 @@ ORDER BY updateDate ASC
                     });
                 } else {
                     let pseudoEmbed = new Discord.MessageEmbed();
-                    pseudoEmbed.setFooter(client.user.username, client.user.displayAvatarURL);
+                    pseudoEmbed.setFooter(client.user.username, client.user.avatarURL());
                     pseudoEmbed.setTimestamp();
                     pseudoEmbed.setColor("#dd0000");
                     pseudoEmbed.setAuthor("UsernameLogger")

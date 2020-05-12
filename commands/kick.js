@@ -22,7 +22,7 @@ module.exports.run = async(client, message, args) => {
     let embed = new Discord.MessageEmbed();
     embed.setAuthor("🔰 Kick");
     embed.setDescription(`:warning: Désolé de te l'annoncer mais tu as été kick du serveur **${message.guild.name}**\n Raison: \`${reason}\``)
-    embed.setFooter(client.user.username, client.user.displayAvatarURL);
+    embed.setFooter(client.user.username, client.user.avatarURL());
     embed.setTimestamp();
     embed.setColor("#36393f");
 

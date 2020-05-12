@@ -94,7 +94,7 @@ module.exports = async(client, message) => {
                     let embed = new Discord.MessageEmbed();
                     embed.setDescription("Une erreur a eu lieu avec la commande : **" + cmd.config.name + "**.");
                     embed.addField('Erreur :', warning.name);
-                    embed.setFooter(client.user.username, client.user.displayAvatarURL);
+                    embed.setFooter(client.user.username, client.user.avatarURL());
                     embed.setTimestamp();
                     embed.setColor("#dd0000");
                     message.channel.send(embed);

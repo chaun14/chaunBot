@@ -133,7 +133,7 @@ module.exports.run = async(client, message, args) => {
             let Monitors;
 
             let embed = new Discord.MessageEmbed();
-            embed.setFooter(client.user.username, client.user.displayAvatarURL);
+            embed.setFooter(client.user.username, client.user.avatarURL());
             embed.setTimestamp();
             embed.setColor("#34eb71");
             embed.setAuthor("Système de monitoring")
