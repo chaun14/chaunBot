@@ -80,7 +80,7 @@ connection.query(usernameTable, function(err, results, fields) {
 
 
 let monitorsTable = `CREATE TABLE if not exists monitors (
-  id bigint(20) NOT NULL,
+  id bigint(20) NOT NULL AUTO_INCREMENT,
   owner_id varchar(255) COLLATE utf8mb4_bin NOT NULL,
   bot_id varchar(255) COLLATE utf8mb4_bin NOT NULL,
   bot_name varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
@@ -90,8 +90,9 @@ let monitorsTable = `CREATE TABLE if not exists monitors (
   active tinyint(1) NOT NULL DEFAULT '1',
   webhook varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   updatedAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  createdAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;`
+  createdAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;`
 connection.query(monitorsTable, function(err, results, fields) {
     if (err) {
         console.log(err.message);

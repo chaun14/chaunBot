@@ -10,6 +10,7 @@ let antiDupli = new Set();
 
 let antiOnlineDupli = new Set();
 
+let samePresenceHandler = new Set();
 
 module.exports = async(client, oldPresence, newPresence) => {
 
@@ -25,7 +26,9 @@ module.exports = async(client, oldPresence, newPresence) => {
 
             if (monitors[0].active == 0) return
 
+
             if (antiDupli.has(newPresence.member.id)) return
+            samePresenceHandler.delete(newPresence.member.id)
             antiDupli.add(newPresence.member.id);
 
             const hook = new Webhook(monitors[0].webhook);
@@ -115,6 +118,7 @@ module.exports = async(client, oldPresence, newPresence) => {
 
         })
     } else {
+
         /* Pour commencer on vérifie si le bot est surveillé */
         let getUserMonitors = `SELECT * FROM monitors WHERE bot_id = '${newPresence.member.id}';`
         db.query(getUserMonitors, async function(err, monitors, fields) {
@@ -123,9 +127,14 @@ module.exports = async(client, oldPresence, newPresence) => {
             if (monitors[0] == undefined) return
 
             if (monitors[0].active == 0) return
+
+            if (oldPresence)
+                if (oldPresence.status == "online") return
+
             if (antiOnlineDupli.has(newPresence.member.id)) return
+            if (samePresenceHandler.has(newPresence.member.id)) return
 
-
+            samePresenceHandler.add(newPresence.member.id)
             antiOnlineDupli.add(newPresence.member.id)
 
 
