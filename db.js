@@ -97,7 +97,21 @@ connection.query(monitorsTable, function(err, results, fields) {
         console.log(err.message);
     }
 });
-
-
-
+let warnsTable = `
+CREATE TABLE IF NOT EXISTS warns (
+    id int(255) NOT NULL AUTO_INCREMENT,
+    guild_id varchar(255) COLLATE utf8mb4_bin NOT NULL,
+    user_id varchar(255) COLLATE utf8mb4_bin NOT NULL,
+    warner_id varchar(255) COLLATE utf8mb4_bin NOT NULL,
+    type enum('manual','auto') COLLATE utf8mb4_bin NOT NULL,
+    reason text COLLATE utf8mb4_bin NOT NULL,
+    updatedAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    createdAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+  ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='vive les warns';`
+connection.query(warnsTable, function(err, results, fields) {
+    if (err) {
+        console.log(err.message);
+    }
+});
 module.exports = connection
