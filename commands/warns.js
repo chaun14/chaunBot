@@ -18,7 +18,16 @@ module.exports.run = async(client, message, args) => {
         if (err) return message.channel.send(`Erreur: ${err.message}`);
 
         if (results[0] == undefined) {
-            message.channel.send("Cette personne ne possède pas d'avertissements");
+            let embed = new Discord.MessageEmbed();
+            embed.setDescription(":x: Cette personne ne possède pas d'avertissements")
+            embed.setFooter(client.user.username, client.user.avatarURL());
+            embed.setTimestamp();
+            embed.setThumbnail(member.user.avatarURL({ dynamic: true }))
+            embed.setColor("#36393f");
+
+            message.channel.send(embed);
+
+
         } else {
 
             let embed = new Discord.MessageEmbed();
@@ -27,7 +36,7 @@ module.exports.run = async(client, message, args) => {
 
             results.forEach(warn => {
                 let date = moment(warn.createdAt).format("D/MM/YY à HH:mm")
-                builder = builder + `${date}: \`${warn.reason}\` par <@${warn.warner_id}>\n`
+                builder = builder + `\`#${warn.id}\` |  ${date}: \`${warn.reason}\` par <@${warn.warner_id}>\n`
             });
 
             if (builder.length >= 2000) {
