@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <title>chaunBot | profile</title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+</head>
+
+<body>
+    <%- include('partials/headbar'); %>
+
+
+        <center>
+            <h3> Serveur(s) configurable(s)</h3>
+
+            <% withBotGuilds.forEach(guild => {%>
+
+                <div class="server-block" title="<%= guild.name %>">
+                    <a href="/serveurs/<%= guild.id %>">
+                        <% if (guild.icon) { %>
+                            <img src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png?size=2048" width="70px" height="70px" class="guild-icon" />
+                            <% } else { %>
+                                <canvas class="guild-icon" id="<%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '') %>" width="70px" height="70px"></canvas>
+
+                                <script>
+                                    function createIcone() {
+                                        const nameAcronym = document.getElementById("<%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '')  %>").getContext('2d');
+                                        nameAcronym.font = '10px Arial';
+                                        nameAcronym.textAlign = "center";
+                                        nameAcronym.fillStyle = "white";
+                                        nameAcronym.fillText("<%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '')  %>", 25, 35);
+                                    };
+                                    createIcone();
+                                </script>
+                                <%}%>
+                    </a>
+                </div>
+
+                <% }) %>
+
+
+
+                    <h3> Ajoutez moi ici </h3>
+
+                    <% withoutBotGuilds.forEach(guild => {%>
+
+                        <div class="server-block" title="<%= guild.name %>">
+                            <a href="/serveurs/<%= guild.id %>">
+                                <% if (guild.icon) { %>
+                                    <img src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png?size=2048" width="70px" height="70px" class="guild-icon" />
+                                    <% } else { %>
+                                        <canvas class="guild-icon" id="<%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '') %>" width="70px" height="70px"></canvas>
+
+                                        <script>
+                                            function createIcone() {
+                                                const nameAcronym = document.getElementById("<%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '')  %>").getContext('2d');
+                                                nameAcronym.font = '10px Arial';
+                                                nameAcronym.textAlign = "center";
+                                                nameAcronym.fillStyle = "white";
+                                                nameAcronym.fillText("<%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '')  %>", 25, 35);
+                                            };
+                                            createIcone();
+                                        </script>
+                                        <%}%>
+                            </a>
+                        </div>
+                        <% }) %>
+                            <div>
+                            </div>
+        </center>
+
+
+
+        <%- include('partials/footer'); %>
+
+
+            <!--  Scripts-->
+            <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+            <script src="js/materialize.js"></script>
+            <script src="js/init.js"></script>
+
+</body>
+
+</html>

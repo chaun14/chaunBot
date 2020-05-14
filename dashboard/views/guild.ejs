@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <title>chaunBot |
+        <%= guild.name %>
+    </title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+</head>
+
+<body>
+
+    <%- include('partials/headbar'); %>
+
+        <br><br>
+        <div class="row">
+
+            <center>
+                <div class="col s6">
+                    <div class="server-block-guild" title="<%= guild.name %>">
+                        <%if (guild.icon) {%>
+                            <img src="https://cdn.discordapp.com/icons/<%=guild.id%>/<%=guild.icon%>.png?size=128" class="bot-avatar rounded-circle" width="150px" height="150px">
+                            <%}else{%>
+                                <canvas class="bot-avatar rounded-circle" id="<%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '') %>" width="150px" height="150px"></canvas>
+
+                                <script>
+                                    function createIcone() {
+                                        const nameAcronym = document.getElementById("<%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '')  %>").getContext('2d');
+                                        nameAcronym.font = '20px Arial';
+                                        nameAcronym.textAlign = "center";
+                                        nameAcronym.fillStyle = "white";
+                                        nameAcronym.fillText("<%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '')  %>", 75, 105);
+                                    };
+                                    createIcone();
+                                </script>
+                                <%}%>
+                    </div>
+                </div>
+            </center>
+            <div class="col s6">
+
+                <h5>
+                    <%= guild.name %>
+                </h5>
+                <p>
+                    <strong>Propriétaire:</strong>
+                    <%=guild.owner.user.tag%><br/>
+
+
+                        <strong>ID:</strong>
+                        <%=guild.id %><br/>
+
+
+                            <strong>Nombre de membres:</strong>
+                            <%=guild.memberCount%><br/>
+
+                                <strong>Date de création:</strong>
+                                <%=guild.createdAt.toUTCString()%><br />
+
+                </p>
+
+
+
+            </div>
+
+        </div>
+
+
+
+        <center>
+
+            <h3>Que voulez-vous faire?</h3>
+            <br>
+
+            <i>Soon</i>
+
+            <br>
+            <br>
+            <br>
+        </center>
+
+
+        <%- include('partials/footer'); %>
+
+            <!--  Scripts-->
+            <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+            <script src="/js/materialize.js"></script>
+            <script src="/js/init.js"></script>
+
+</body>
+
+</html>

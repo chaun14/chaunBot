@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <title>
+        <%= botclient.username %> | accueil</title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+</head>
+
+<body>
+    <%- include('partials/headbar'); %>
+
+
+        <div class="section no-pad-bot" id="index-banner">
+            <div class="container">
+                <br><br>
+                <h1 class="header center blue-text">
+                    <%= botclient.username %>
+                </h1>
+                <div class="row center">
+                    <h5 class="header col s12 light">Un bot discord ? C'est effectivement le cas, invitez le pour découvrir tout son potentiel</h5>
+                </div>
+                <br><br>
+                <div class="row center">
+                    <center>
+                        <a href="https://discordapp.com/api/oauth2/authorize?client_id=<%= botclient.id %>&permissions=1609956830&scope=bot" id="invite-button" class="rainbow-button" alt="Invitez moi"></a>
+                    </center>
+                </div>
+                <br><br>
+
+            </div>
+        </div>
+
+
+        <div class="container">
+            <div class="section">
+
+                <!--   Icon Section   -->
+                <div class="row">
+                    <div class="col s12 m4">
+                        <div class="icon-block">
+                            <h2 class="center light-blue-text"><i class="material-icons">flash_on</i></h2>
+                            <h5 class="center">Des fonctionnalités inédites</h5>
+
+                            <p class="light">Vous en avez sans doute marre des bots discord qui se disent tous inédits car à force tout tourne en rond.<br>Avec ce bot j'ai essayé de mettre tout ce que j'aimerais d'un bot, il y a des choses propres au bot, des choses inutiles,
+                                des choses surfaites mais vous trouverez toujours votre bonheur dessus.</p>
+                        </div>
+                    </div>
+
+                    <div class="col s12 m4">
+                        <div class="icon-block">
+                            <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
+                            <h5 class="center">Open source</h5>
+
+                            <p class="light">Le bot et son panel sont complètement open source et libre de droit. Libre a vous de participer à son developpement, corriger des bugs, vous en inspirer pour des projets perso...</p>
+                        </div>
+                    </div>
+
+                    <div class="col s12 m4">
+                        <div class="icon-block">
+                            <h2 class="center light-blue-text"><i class="material-icons">settings</i></h2>
+                            <h5 class="center">Panel de configuration</h5>
+
+                            <p class="light">Afin de faciliter grandement la configuration du bot, j'ai essayé de rendre tout accessible depuis le dashboard pour rendre plus productif la configuration de systèmes complexes.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br><br>
+        </div>
+
+        <%- include('partials/footer'); %>
+
+
+            <!--  Scripts-->
+            <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+            <script src="js/materialize.js"></script>
+            <script src="js/init.js"></script>
+
+</body>
+
+</html>

@@ -1,8 +1,12 @@
 {
-    "token": "",
+    "token": "get it on discord dev panel",
     "owners": ["youridhere"],
     "ytapikey": "",
     "logWebhook": "awebhookfromaprivatechannelhere",
+    "panel_url": "http://localhost:1403",
+    "client_secret": "get it on discord dev panel",
+    "panel_secret": "type a long random string and keep it private",
+    "port": 1403,
     "db": {
         "host": "localhost",
         "name": "",
