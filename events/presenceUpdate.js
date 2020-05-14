@@ -63,7 +63,7 @@ module.exports = async(client, oldPresence, newPresence) => {
                     pteroClient.login(monitors[0].panel_url, monitors[0].api_key, (logged_in, msg) => {
                         if (!logged_in) {
                             const embed3 = new MessageBuilder()
-                                .setAuthor(":x: Erreur")
+                                .setAuthor("❌ Erreur")
                                 .setDescription(`Je ne parviens pas à redémarrer <@${newPresence.member.id}> merci de vérifier l'url du panel et la clé api.`)
                                 .setFooter(client.user.username, client.user.avatarURL())
                                 .setTimestamp()
@@ -86,7 +86,7 @@ module.exports = async(client, oldPresence, newPresence) => {
 
                             }).catch((error) => {
                                 const embed5 = new MessageBuilder()
-                                    .setAuthor(":x: Erreur")
+                                    .setAuthor("❌ Erreur")
                                     .setDescription(`Je ne parviens pas à redémarrer <@${newPresence.member.id}> merci de vérifier l'id du serveur.`)
                                     .setFooter(client.user.username, client.user.avatarURL())
                                     .setTimestamp()
