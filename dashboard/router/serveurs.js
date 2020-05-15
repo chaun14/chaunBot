@@ -105,8 +105,14 @@ router.get("/:guildID", CheckAuth, (req, res) => {
 
 
         await sql.getGuildSettings(req.params.guildID, async(err, settings) => {
-
             let autoRoleSettings = JSON.parse(settings[0].autoRole)
+            if (settings[0].autoRole == null) {
+                autoRoleSettings = {
+                    "activated": false,
+                    "role": "",
+                }
+            }
+
 
 
             res.render("items/autorole", {
@@ -138,6 +144,12 @@ router.get("/:guildID", CheckAuth, (req, res) => {
         if (!req.body.roleid || req.body.roleid === "NOT_SET") {
             await sql.getGuildSettings(req.params.guildID, async(err, settings) => {
                 let autoRoleSettings = JSON.parse(settings[0].autoRole)
+                if (settings[0].autoRole == null) {
+                    autoRoleSettings = {
+                        "activated": false,
+                        "role": "",
+                    }
+                }
 
 
                 res.render("items/autorole", {
@@ -166,6 +178,12 @@ router.get("/:guildID", CheckAuth, (req, res) => {
         sql.setAutoRole(req.params.guildID, json, async(err, result) => {
             await sql.getGuildSettings(req.params.guildID, async(err, settings) => {
                 let autoRoleSettings = JSON.parse(settings[0].autoRole)
+                if (settings[0].autoRole == null) {
+                    autoRoleSettings = {
+                        "activated": false,
+                        "role": "",
+                    }
+                }
 
 
 
