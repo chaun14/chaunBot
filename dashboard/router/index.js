@@ -11,7 +11,9 @@ router.get("/", function(req, res) {
             botclient: req.bot.user,
             user: req.user,
             login: (req.isAuthenticated() ? "oui" : "non"),
-            invite: `https://discordapp.com/oauth2/authorize?client_id=${req.bot.user.id}&scope=bot&permissions=-1`
+            invite: `https://discordapp.com/oauth2/authorize?client_id=${req.bot.user.id}&scope=bot&permissions=-1`,
+            message: "",
+            messageType: "success"
         });
     })
     .get("/login", passport.authenticate("discord", { failureRedirect: "/" }),

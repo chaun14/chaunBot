@@ -89,3 +89,6 @@ client.on("error", (e) => {
 });
 client.on("warn", (e) => console.warn(e));
 //client.on("debug", (e) => console.info(e));
+
+
+module.exports = { client }

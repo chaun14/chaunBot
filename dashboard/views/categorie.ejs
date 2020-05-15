@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <%- include('partials/header'); %>
+        <title>chaunBot |
+            <%= categorie %>
+        </title>
+
+</head>
+
+<body>
+    <%- include('partials/headbar'); %>
+
+        <div class="row">
+            <center>
+                <br>
+                <h3>
+                    Configuration:
+                    <%= categorie %>
+                </h3>
+
+
+                <% parameters.forEach(parameter => {%>
+
+                    <a class="waves-effect waves-light btn-large" href="<%= parameter.target %>"><i class="material-icons right"><%= parameter.icon %></i><%= parameter.name %></a>
+
+
+                    <% }); %>
+
+            </center>
+
+        </div>
+        <%- include('partials/footer'); %>
+
+            <%- include('partials/scripts'); %>
+</body>
+
+</html>

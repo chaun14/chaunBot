@@ -1,0 +1,26 @@
+<!--  Scripts-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="/js/materialize.js"></script>
+<script src="/js/init.js"></script>
+
+<!-- Messenger-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/messenger/1.5.0/js/messenger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/messenger/1.5.0/js/messenger-theme-flat.min.js"></script>
+
+
+
+
+<%   if (message !== "") { %>
+
+    <script>
+        Messenger.options = {
+            extraClasses: "messenger-fixed messenger-on-bottom  messenger-on-right",
+            theme: "flat"
+        }
+
+        Messenger().post({
+            message: "<%= message %>",
+            type: "<%= messageType %>"
+        })
+    </script>
+    <% }%>

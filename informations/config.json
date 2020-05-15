@@ -1,4 +1,5 @@
 {
+    "debug": false,
     "token": "get it on discord dev panel",
     "owners": ["youridhere"],
     "ytapikey": "",

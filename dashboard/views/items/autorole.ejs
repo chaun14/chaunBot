@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <%- include('../partials/header'); %>
+        <title>chaunBot | Auto-rôle
+        </title>
+
+
+</head>
+
+<body>
+    <%- include('../partials/headbar'); %>
+
+        <div class="row">
+            <center>
+                <br>
+                <h3>
+                    Configuration: Auto-rôle
+                </h3>
+            </center>
+            <form action="./autorole" method="post">
+
+                <div class="col s12">
+                    <center>
+                        <div class="col s4">
+                            <b>Status: </b>
+                            <div class="switch">
+
+                                <label>
+                              Off
+                              <%   if(autoRoleSettings.activated) {%>
+                              <input name="status" type="checkbox" id='status' checked>
+                              <% } else {%>
+                                <input name="status" type="checkbox" id='status'>
+                                <% } %> 
+                              <span class="lever"></span>
+                              On
+                            </label>
+                            </div>
+                        </div>
+                    </center>
+
+
+                    <div class="col s4">
+
+                        <b>Sélectionner un rôle: </b>
+                        <select id="select-channel" name="roleid" class="browser-default">
+                      <option value="NOT_SET">None</option>
+                      <% guild.roles.cache.forEach(role => { %>
+                        <% if(role.managed || role.name == "@everyone") return %>
+                        <% if(role.hexColor == "#000000" ) {%>
+                            <option style='color: #fff' value="<%= role.id %>" <%= autoRoleSettings.role === role.id ? 'selected': '' %>>@<%= role.name %></option>
+                            
+                            <% } else {%>
+                                <option style='color: <%= role.hexColor %>' value="<%= role.id %>" <%= autoRoleSettings.role === role.id ? 'selected': '' %>>@<%= role.name %></option>
+                            <% } %> 
+
+                      <% }); %>
+                    </select>
+                    </div>
+                    <div class="col s4">
+                        <center>
+                            <input type="submit" value="Save" class="btn btn-primary green">
+
+                        </center>
+
+                    </div>
+                </div>
+
+            </form>
+
+
+        </div>
+        <%- include('../partials/footer'); %>
+
+            <%- include('../partials/scripts'); %>
+
+                <script>
+                    $(document).ready(function() {
+                        $('select').formSelect();
+                    });
+                </script>
+
+</body>
+
+</html>

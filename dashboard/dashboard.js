@@ -5,6 +5,7 @@ const passport = require("passport");
 const { Strategy } = require("passport-discord");
 const bodyparser = require("body-parser");
 const path = require("path");
+const morgan = require('morgan')
 const config = require("../informations/config");
 module.exports.load = async(client) => {
     passport.serializeUser((user, done) => {
@@ -30,6 +31,7 @@ module.exports.load = async(client) => {
     app
         .use(bodyparser.json())
         .use(bodyparser.urlencoded({ extended: true }))
+        .use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'))
         .engine("html", require("ejs").renderFile)
         .use(express.static(path.join(__dirname, "/public")))
         .set("view engine", "ejs")

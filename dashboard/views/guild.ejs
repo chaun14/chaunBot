@@ -2,16 +2,12 @@
 <html lang="fr">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
-    <title>chaunBot |
-        <%= guild.name %>
-    </title>
+    <%- include('partials/header'); %>
+        <title>
+            <%= guild.name %>
+        </title>
 
-    <!-- CSS  -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
-    <link href="/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+
 </head>
 
 <body>
@@ -77,8 +73,12 @@
 
             <h3>Que voulez-vous faire?</h3>
             <br>
+            <a class="waves-effect waves-light btn-large" href="./<%=guild.id %>/tools"><i class="material-icons right">build</i>Utilitaire</a>
 
-            <i>Soon</i>
+
+
+
+            <i>More soon...</i>
 
             <br>
             <br>
@@ -88,10 +88,7 @@
 
         <%- include('partials/footer'); %>
 
-            <!--  Scripts-->
-            <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-            <script src="/js/materialize.js"></script>
-            <script src="/js/init.js"></script>
+            <%- include('partials/scripts'); %>
 
 </body>
 

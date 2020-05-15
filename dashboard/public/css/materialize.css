@@ -5857,10 +5857,11 @@ button.btn-floating {
 .dropdown-content li > a,
 .dropdown-content li > span {
     font-size: 16px;
-    color: #26a69a;
+    color: #fff;
     display: block;
     line-height: 22px;
     padding: 14px 16px;
+    background-color: #2C2F33;
 }
 
 .dropdown-content li > span > label {
@@ -5891,6 +5892,8 @@ body.keyboard-focused .dropdown-content li:focus {
 
 .dropdown-trigger {
     cursor: pointer;
+    background-color: #2C2F33;
+    color: #fff;
 }
 
 /*!
@@ -7432,7 +7435,7 @@ select.browser-default {
 }
 
 select {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: #2C2F33;
     width: 100%;
     padding: 5px;
     border: 1px solid #f2f2f2;
