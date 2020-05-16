@@ -118,6 +118,17 @@ module.exports.run = async(client, message, args) => {
                 return message.channel.send("Désolé je ne trouve pas ce bot dans la liste de vos bots surveillés")
             }
 
+            let removeMonitor = `DELETE FROM monitors WHERE monitors.id = ${SqlString.escape(botMonitor.id)};`;
+            db.query(removeMonitor, function(err, monitors, fields) {
+                if (err) {
+
+                    message.channel.send(":x: Erreur lors de la suppression de ce monitor")
+                    throw err
+                }
+                message.channel.send("Le monitor à bien été supprimé")
+
+            })
+
         })
     } else if (action == "list") {
 
@@ -256,21 +267,6 @@ module.exports.run = async(client, message, args) => {
         })
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
 
