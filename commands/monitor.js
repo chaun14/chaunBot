@@ -10,7 +10,7 @@ module.exports.run = async(client, message, args) => {
     let action = args[0];
     let target = args[1];
 
-    if (action == undefined) return message.channel.send("Veuillez spécifier une acion pour gérer le monitor `add/list/remove/enable/disable`")
+    if (action == undefined) return message.channel.send("Veuillez spécifier une acion pour gérer le monitor `add/list/remove/enable/disable/restart`")
 
 
     if (action == "add") {
@@ -214,6 +214,47 @@ module.exports.run = async(client, message, args) => {
 
         })
 
+    } else if (action == "restart") {
+
+        console.log("Commande restart " + target)
+        let getUserMonitors = `SELECT * FROM monitors WHERE owner_id = '${message.author.id}';`
+        db.query(getUserMonitors, function(err, monitors, fields) {
+            if (err) throw err
+            if (monitors[0] == undefined) {
+                return message.channel.send("Désolé tu n'as pas de monitor lié à ton compte. Pour en ajouter un `c!monitor add`")
+            }
+            if (target == undefined) {
+                return message.channel.send("Tu dois spécifier un id de bot discord surveillé")
+            }
+            let botMonitor = monitors.find(monitors => monitors.bot_id === target)
+
+            if (botMonitor == undefined) {
+                return message.channel.send("Désolé je ne trouve pas ce bot dans la liste de vos bots surveillés")
+            }
+
+            const Client = node.Client;
+
+            Client.login(botMonitor.panel_url, botMonitor.api_key, (logged_in, err) => {
+
+            });
+
+            Client.restartServer(botMonitor.server_id).then((response) => {
+
+                const hook = new Webhook(botMonitor.webhook)
+                hook.send("✅ Redémarrage de votre bot <@" + botMonitor.bot_id + ">").then(() => {
+
+                        message.channel.send("Redémarrage lancé")
+
+                    })
+                    .catch(err => {
+                        return message.author.send("⚠ Votre webhook ne fonctionne pas")
+                    });
+            }).catch((error) => {
+
+                return message.author.send(":x: Quelque chose s'est mal passé lors de la recherche du serveur sur le panel : `" + error.response.statusText + "` \nVérifiez que vous avez bien donné le bon identifiant de serveur du bot sur le panel")
+            });
+        })
+
     }
 
 
@@ -243,8 +284,8 @@ module.exports.config = {
 
 module.exports.help = {
     description: "Commande pour gérer le système de monitoring du bot",
-    utilisations: `monitor <add/list/remove/enable/disable> <botid/serverid>`,
-    exemples: "c!monitor add\nc!monitor enable `44b35990`"
+    utilisations: `monitor <add/list/remove/enable/disable/restart> <botid>`,
+    exemples: "c!monitor add\nc!monitor enable `312877756197109760`"
 }
 
 
