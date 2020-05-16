@@ -165,19 +165,14 @@ async function playcmd(client, message, args) {
 
 
 
-                message.channel.send(`
-__**Choix de musique:**__
-${videos.map(video2 => `**${++index} -** ${video2.title}`.replace("@", "＠")).join('\n')}
-Choisissez la musique avec un nombre entre 1 et 10.
-					`.replace("@", "＠"));
-                // eslint-disable-next-line max-depth
+                message.channel.send(` __**Choix de musique:**__  \n${videos.map(video2 => `**${++index} -** ${video2.title}`.replace("@", "＠")).join('\n')}\nChoisissez la musique avec un nombre entre 1 et 10.`.replace("@", "＠"));
                    
                     message.channel.awaitMessages(message2 => message2.content > 0 && message2.content < 11, { max: 1, time: 30000, errors: ['time'] }).then(async response => {
                    
                         const videoIndex = parseInt(response.first().content);
                         video = await youtube.getVideoByID(videos[videoIndex - 1].id);
 
-                      
+                    
                         return handleVideo(client, video, message, voiceChannel);
 
                     }).catch(collected => {
@@ -197,7 +192,14 @@ Choisissez la musique avec un nombre entre 1 et 10.
                 console.error(err);
                 return message.channel.send("🆘 Désolé j'ai fouillé jusqu'au plus profond de youtube sans résultats");
             }
+            return
         }
+   
+        if(!video) {
+            message.channel.send("Erreur de chargement de la musique")
+        return
+       }
+
         handleVideo(client, video, message, voiceChannel);
     }
 
@@ -214,6 +216,11 @@ Choisissez la musique avec un nombre entre 1 et 10.
 async function handleVideo(client, video, message, voiceChannel, playlist = false) {
     const serverQueue = queue.get(message.guild.id);
    // console.log(video);
+   if(!video) {
+        message.channel.send("Erreur de chargement de la musique")
+    return
+   }
+  
     const song = {
         id: video.id,
         title: video.title,//Util.escapeMarkdown(video.title),
