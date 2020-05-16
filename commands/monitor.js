@@ -243,34 +243,48 @@ module.exports.run = async(client, message, args) => {
                 return message.channel.send("Désolé je ne trouve pas ce bot dans la liste de vos bots surveillés")
             }
 
+
             const Client = node.Client;
 
             Client.login(botMonitor.panel_url, botMonitor.api_key, (logged_in, err) => {
 
-            });
+
+                console.log("login")
+
+
+                if (!logged_in) {
+                    return message.channel.send(":x: Impossible de me connecter au panel")
+
+                }
+            })
+
 
             Client.restartServer(botMonitor.server_id).then((response) => {
 
-                const hook = new Webhook(botMonitor.webhook)
-                hook.send("✅ Redémarrage de votre bot <@" + botMonitor.bot_id + ">").then(() => {
-
-                        message.channel.send("Redémarrage lancé")
-
-                    })
-                    .catch(err => {
-                        return message.author.send("⚠ Votre webhook ne fonctionne pas")
-                    });
             }).catch((error) => {
-
-                return message.author.send(":x: Quelque chose s'est mal passé lors de la recherche du serveur sur le panel : `" + error.response.statusText + "` \nVérifiez que vous avez bien donné le bon identifiant de serveur du bot sur le panel")
+                console.log(error.response.statusText)
             });
-        })
 
+
+            const hook = new Webhook(botMonitor.webhook)
+
+            hook.send("✅ Redémarrage de votre bot <@" + botMonitor.bot_id + ">").then(() => {
+
+                message.channel.send("Redémarrage lancé")
+
+            }).catch(err => {
+                return message.channel.send("⚠ Votre webhook ne fonctionne pas")
+
+
+
+            })
+
+
+
+        })
     }
 
 }
-
-
 module.exports.config = {
     category: "Utile",
     name: __filename.slice(__dirname.length + 1, __filename.length - 3),
