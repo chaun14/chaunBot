@@ -196,7 +196,7 @@ async function playcmd(client, message, args) {
         }
    
         if(!video) {
-            message.channel.send("Erreur de chargement de la musique")
+            message.channel.send(":x: Erreur de chargement de la musique")
         return
        }
 
