@@ -71,7 +71,7 @@ function mafonction() {
 
     messagesPerMinutesHistory.set(minutes, getMessagesPerMinute(minutes))
 
-    console.log(messagesPerMinutesHistory)
+    //console.log(messagesPerMinutesHistory)
 
 
     // go back in hour   console.log(Math.floor(minutes / 60) + "h et " + minutes % 60)
