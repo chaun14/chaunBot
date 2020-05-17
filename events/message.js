@@ -4,10 +4,12 @@ const Discord = require("discord.js");
 const chalk = new colorchalk.constructor({ level: 3 });
 const moment = require("moment");
 const db = require("../db.js")
-
+const stats = require("../modules/stats")
 module.exports = async(client, message) => {
 
-    /* ------------------------------ Début système préfixe ------------------------------*/
+
+    stats.addMessage(message)
+        /* ------------------------------ Début système préfixe ------------------------------*/
 
     if (message.guild == null && message.author.bot == false) {
         //  message.reply("désolé je ne prend pas les mp")

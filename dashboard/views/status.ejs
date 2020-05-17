@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <%- include('partials/header'); %>
+        <title>
+            chaunbot | status
+        </title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.css">
+
+
+</head>
+
+<body>
+
+    <%- include('partials/headbar'); %>
+        <div class="row">
+            <br>
+            <br>
+            <center>
+                <h4><span>Depuis une heure</span></h4>
+                <div class="chart-container">
+                    <canvas id="messagesPerMinuteLastHour" height="60px" width="100px"></canvas>
+                </div>
+            </center>
+        </div>
+        <%- include('partials/footer'); %>
+
+
+
+
+            <%- include('partials/scripts'); %>
+
+
+
+                <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+
+
+
+
+
+                <script>
+                    var ctx = document.getElementById('messagesPerMinuteLastHour').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: [],
+                            datasets: [{
+                                label: '# Messages par minutes',
+                                data: [],
+                                borderColor: "rgb(75, 192, 192)"
+                            }],
+
+                        },
+                        options: {
+
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                </script>
+
+                <script>
+                    let valueArray = []
+                    socket.on('msgPerMin', function(msg) {
+                        var d = new Date();
+                        var h = d.getHours();
+                        var n = d.getMinutes();
+                        var totalMinutes = h * 60 + n
+                        var last = valueArray[0]
+
+                        myChart.data.datasets.forEach((dataset) => {
+
+
+                            console.log("actual" + totalMinutes)
+                            console.log("last" + valueArray[0])
+                            console.log("valueArray" + valueArray)
+
+
+                            if (myChart.data.labels.indexOf(Math.floor(msg.minute / 60) + "h" + msg.minute % 60) > -1) {
+
+                                dataset.data.pop();
+                                dataset.data.push(msg.mpm);
+                            } else {
+                                myChart.data.labels.push(Math.floor(msg.minute / 60) + "h" + msg.minute % 60);
+                                valueArray.push(msg.minute)
+                                dataset.data.push(msg.mpm);
+
+
+                                if (last < totalMinutes - 60) {
+                                    myChart.data.labels.shift()
+                                    dataset.data.shift();
+                                }
+                            }
+
+                        });
+
+
+                        myChart.update();
+
+                    })
+                </script>
+
+                <%  for (var [key, value] of MessagesPerMinuteHistory)  {%>
+                    <script>
+                        valueArray.push("<%= key %>")
+                            // système d'ajout de ce qui est déjà en mémoire vers le chart
+                        myChart.data.datasets.forEach((dataset) => {
+
+
+                            if (myChart.data.labels.indexOf(Math.floor("<%= key %>" / 60) + "h" + "<%= key %>" % 60) > -1) {
+
+                                dataset.data.pop();
+                                dataset.data.push("<%= value %>");
+                            } else {
+                                myChart.data.labels.push(Math.floor("<%= key %>" / 60) + "h" + "<%= key %>" % 60);
+                                dataset.data.push("<%= value %>");
+                            }
+
+
+                        });
+                    </script>
+                    <% } %>
+
+
+
+</body>
+
+
+</html>

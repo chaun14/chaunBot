@@ -76,9 +76,35 @@ a-custom {
 
 .server-block {
     display: inline-block;
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
     margin: 1em;
+    background-image: linear-gradient(90deg, #00C0FF 0%, #FFCF00 49%, #FC4F4F 80%, #00C0FF 100%);
+    border-radius: 50%;
+}
+
+.server-block:hover {
+    animation: slidebg 2s linear infinite;
+}
+
+.server-block:before {
+    display: block;
+    position: relative;
+    top: 50%;
+    content: '';
+    width: 69px;
+    height: 69px;
+    background-color: #191919;
+    border-radius: 50%;
+    transform: translateY(-50%);
+}
+
+.server-block>a {
+    display: block;
+    position: relative;
+    top: 11.3px;
+    left: 0px;
+    transform: translateY(-100%);
 }
 
 .server-block-guild {
@@ -91,3 +117,32 @@ a-custom {
     align-items: center;
     background-image: linear-gradient(90deg, #00C0FF 0%, #FFCF00 49%, #FC4F4F 80%, #00C0FF 100%);
 }
+
+.guild-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+
+/* Class css menu action */
+
+.actionbouton {
+    width: calc(20vw + 6px);
+    height: calc(5vw + 6px);
+    min-height: 50px;
+    min-width: 200px;
+    background-color: #545454;
+    border-width: 4px;
+    border-radius: 5px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-size: calc(15px + 1vw);
+    font-weight: bold;
+}
+
+
+/* Fin Class css menu action  */
