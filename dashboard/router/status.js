@@ -6,6 +6,9 @@ const stats = require("../../modules/stats");
 
 router.get("/", function(req, res) {
     let MessagesPerMinuteHistory = stats.getMessagesPerMinuteHistory()
+    let MessagesPerHourHistory = stats.getMessagesPerHourHistory()
+
+
 
     res.render("status.ejs", {
         status: (req.isAuthenticated() ? `${req.user.username}#${req.user.discriminator}` : "Se connecter"),
@@ -15,7 +18,8 @@ router.get("/", function(req, res) {
         invite: `https://discordapp.com/oauth2/authorize?client_id=${req.bot.user.id}&scope=bot&permissions=-1`,
         message: "",
         messageType: "success",
-        MessagesPerMinuteHistory
+        MessagesPerMinuteHistory,
+        MessagesPerHourHistory: MessagesPerHourHistory
     });
 })
 

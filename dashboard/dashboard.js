@@ -19,9 +19,11 @@ module.exports.load = async(client) => {
     const io = require('socket.io')(http);
 
     function mafonction() {
-        var m = moment(new Date());
-        var minutes = (m.hour() * 60) + m.minute();
 
+        var minutes = stats.getMinutes()
+        let hour = stats.getHours()
+
+        io.emit('msgPerHour', { mph: stats.getMessagesPerHourHistory().get(hour), hour: hour })
         io.emit('msgPerMin', { mpm: stats.getMessagesPerMinute(minutes), minute: minutes })
 
     }

@@ -8,21 +8,98 @@
         </title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.css">
 
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            
+            [class*="col-"] {
+                float: left;
+                padding: 15px;
+            }
+            /* For desktop: */
+            
+            .col-1 {
+                width: 8.33%;
+            }
+            
+            .col-2 {
+                width: 16.66%;
+            }
+            
+            .col-3 {
+                width: 25%;
+            }
+            
+            .col-4 {
+                width: 33.33%;
+            }
+            
+            .col-5 {
+                width: 41.66%;
+            }
+            
+            .col-6 {
+                width: 50%;
+            }
+            
+            .col-7 {
+                width: 58.33%;
+            }
+            
+            .col-8 {
+                width: 66.66%;
+            }
+            
+            .col-9 {
+                width: 75%;
+            }
+            
+            .col-10 {
+                width: 83.33%;
+            }
+            
+            .col-11 {
+                width: 91.66%;
+            }
+            
+            .col-12 {
+                width: 100%;
+            }
+            
+            @media only screen and (max-width: 768px) {
+                /* For mobile phones: */
+                [class*="col-"] {
+                    width: 100%;
+                }
+            }
+        </style>
 
 </head>
 
 <body>
 
     <%- include('partials/headbar'); %>
+
         <div class="row">
             <br>
             <br>
-            <center>
-                <h4><span>Depuis une heure</span></h4>
-                <div class="chart-container">
-                    <canvas id="messagesPerMinuteLastHour" height="60px" width="100px"></canvas>
-                </div>
-            </center>
+
+            <div class="col-6">
+                <center>
+                    <h4><span>Depuis une heure</span></h4>
+                    <div class="chart-container"></div>
+                    <canvas id="messagesPerMinuteLastHour" height="100px" width="100px"></canvas>
+                </center>
+            </div>
+            <div class="col-6">
+                <center>
+                    <h4><span>Depuis une journée</span></h4>
+                    <div class="chart-container"></div>
+                    <canvas id="messagesPerHourLastDay" height="100px" width="100px"></canvas>
+                </center>
+            </div>
+        </div>
         </div>
         <%- include('partials/footer'); %>
 
@@ -39,6 +116,36 @@
 
 
 
+                <script>
+                    var mphChartctx = document.getElementById('messagesPerHourLastDay').getContext('2d');
+                    var mphChart = new Chart(mphChartctx, {
+                        type: 'line',
+                        data: {
+                            labels: [],
+                            datasets: [{
+                                label: 'Messages par heure',
+                                data: [],
+                                borderColor: "rgb(75, 192, 192)"
+                            }],
+
+                        },
+                        options: {
+                            maintainAspectRatio: false,
+                            elements: {
+                                point: {
+                                    radius: 0
+                                }
+                            },
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                </script>
 
                 <script>
                     var ctx = document.getElementById('messagesPerMinuteLastHour').getContext('2d');
@@ -47,14 +154,19 @@
                         data: {
                             labels: [],
                             datasets: [{
-                                label: '# Messages par minutes',
+                                label: 'Messages par minutes',
                                 data: [],
                                 borderColor: "rgb(75, 192, 192)"
                             }],
 
                         },
                         options: {
-
+                            maintainAspectRatio: false,
+                            elements: {
+                                point: {
+                                    radius: 0
+                                }
+                            },
                             scales: {
                                 yAxes: [{
                                     ticks: {
@@ -68,6 +180,8 @@
 
                 <script>
                     let valueArray = []
+                    let hoursArray = []
+
                     socket.on('msgPerMin', function(msg) {
                         var d = new Date();
                         var h = d.getHours();
@@ -77,22 +191,25 @@
 
                         myChart.data.datasets.forEach((dataset) => {
 
+                            /*
+                                 console.log("actual" + totalMinutes)
+                                  console.log("last" + valueArray[0])
+                                  onsole.log("valueArray" + valueArray)
+                            */
 
-                            console.log("actual" + totalMinutes)
-                            console.log("last" + valueArray[0])
-                            console.log("valueArray" + valueArray)
-
-
+                            // on vérifie si la colonne du graph existe 
                             if (myChart.data.labels.indexOf(Math.floor(msg.minute / 60) + "h" + msg.minute % 60) > -1) {
 
                                 dataset.data.pop();
                                 dataset.data.push(msg.mpm);
+
                             } else {
+                                // si elle existe pas on créé la colonne
                                 myChart.data.labels.push(Math.floor(msg.minute / 60) + "h" + msg.minute % 60);
                                 valueArray.push(msg.minute)
                                 dataset.data.push(msg.mpm);
 
-
+                                // on enlève ce qui date de plus d'une heure
                                 if (last < totalMinutes - 60) {
                                     myChart.data.labels.shift()
                                     dataset.data.shift();
@@ -106,6 +223,57 @@
 
                     })
                 </script>
+
+
+                <script>
+                    socket.on('msgPerHour', function(msg) {
+                        var d = new Date();
+                        var h = d.getHours();
+                        var n = d.getMinutes();
+                        var totalMinutes = h * 60 + n
+                        var last = valueArray[0]
+
+                        mphChart.data.datasets.forEach((dataset) => {
+
+                            /*
+                                 console.log("actual" + totalMinutes)
+                                  console.log("last" + valueArray[0])
+                                  onsole.log("valueArray" + valueArray)
+                            */
+
+                            // on vérifie si la colonne du graph existe 
+
+                            if (mphChart.data.labels.includes(msg.hour + "h")) {
+
+                                dataset.data.pop();
+                                dataset.data.push(msg.mph);
+
+                                console.log(dataset.data.toLocaleString())
+                            } else {
+
+                                // si elle existe pas on créé la colonne
+                                mphChart.data.labels.push(msg.hour + "h");
+                                //valueArray.push(msg.minute)
+                                dataset.data.push(msg.mph);
+
+                                // on enlève ce qui date de plus d'un jour
+                                if (dataset.data.labels.length > 24) {
+                                    mphChart.data.labels.shift()
+                                    dataset.data.shift();
+                                }
+                            }
+
+                        });
+
+
+                        mphChart.update();
+
+                    })
+                </script>
+
+
+
+
 
                 <%  for (var [key, value] of MessagesPerMinuteHistory)  {%>
                     <script>
@@ -129,6 +297,29 @@
                     <% } %>
 
 
+
+
+                        <%  for (var [hour, value] of MessagesPerHourHistory)  {%>
+                            <script>
+                                console.log("<%= hour %>h -> <%= value %>")
+                                    // système d'ajout de ce qui est déjà en mémoire vers le chart
+                                mphChart.data.datasets.forEach((dataset) => {
+
+
+                                    if (mphChart.data.labels.includes("<%= hour %>h")) {
+                                        console.log(mphChart.data.labels)
+
+                                        dataset.data.push("<%= value %>");
+                                    } else {
+                                        mphChart.data.labels.push("<%= hour %>h");
+                                        dataset.data.push("<%= value %>");
+                                    }
+
+
+                                    mphChart.update();
+                                });
+                            </script>
+                            <% } %>
 
 </body>
 
