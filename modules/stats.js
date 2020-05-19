@@ -137,9 +137,13 @@ setInterval(mafonction, 1000);
 
 function getMinutes() {
     var d = new Date();
-    var h = d.getHours();
+    var h = d.getHours() + 2;
+
+    if (h == 24) h = 0;
+    if (h == 25) h = 1;
+
     var n = d.getMinutes();
-    var totalMinutes = h * 60 + n + 120
+    var totalMinutes = h * 60 + n
 
 
     return totalMinutes
@@ -151,7 +155,8 @@ function getMinutes() {
 function getHours() {
     var d = new Date();
     var h = d.getHours() + 2
-
+    if (h == 24) h = 0;
+    if (h == 25) h = 1;
 
     return h
 }
