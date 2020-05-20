@@ -11,6 +11,8 @@ client.login(configBOT.token);
 const webhook = require('discord-webhook-node');
 const hook = new webhook.Webhook(configBOT.logWebhook);
 
+
+
 client.website = require("./dashboard/dashboard.js")
 
 client.writeFile = (path, object) => {

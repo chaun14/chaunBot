@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <%- include('../partials/header'); %>
+        <title>chaunBot | Auto-Haste
+        </title>
+
+
+</head>
+
+<body>
+    <%- include('../partials/headbar'); %>
+
+        <div class="row">
+            <center>
+                <br>
+                <h3>
+                    Configuration: Auto-Haste
+                </h3>
+            </center>
+            <form action="./notxt" method="post">
+
+                <div class="col s12">
+                    <center>
+                        <div class="col s6">
+                            <b>Status: </b>
+                            <div class="switch">
+
+                                <label>
+                              Off
+                              <%   if(notxtSettings.activated) {%>
+                              <input name="status" type="checkbox" id='status' checked>
+                              <% } else {%>
+                                <input name="status" type="checkbox" id='status'>
+                                <% } %> 
+                              <span class="lever"></span>
+                              On
+                            </label>
+                            </div>
+                        </div>
+                    </center>
+
+
+
+                    <div class="col s6">
+                        <center>
+                            <input type="submit" value="Save" class="btn btn-primary green">
+
+                        </center>
+
+                    </div>
+                </div>
+
+            </form>
+            <center>
+                <br>
+                <br>
+
+                <p>Ce module permet de générer un lien hastebin automatiquement lors d'un envoi de fichier texte sur votre serveur</p>
+            </center>
+        </div>
+
+
+
+        <%- include('../partials/footer'); %>
+
+            <%- include('../partials/scripts'); %>
+
+                <script>
+                    $(document).ready(function() {
+                        $('select').formSelect();
+                    });
+                </script>
+
+</body>
+
+</html>

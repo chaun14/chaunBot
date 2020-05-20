@@ -3,9 +3,12 @@ const colors = require('colors');
 const Discord = require("discord.js");
 const moment = require("moment");
 const db = require("../db.js")
+const sql = require("../modules/sql")
 var SqlString = require('sqlstring');
 const debug = config.debug
+const client = require("../main")
 
+let loadFinished = false
 
 
 let messagesPerSecond = new Set()
@@ -14,8 +17,10 @@ let messagesPerMinutesHistory = new Map()
 let messagesPerHoursHistory = new Map()
 
 
+
 // entrée d'un nouveau message dans le système de calcun
 function addMessage(message) {
+    if (!loadFinished) return
     addMessagesPerSecond(message)
     addMessagesPerMinute(message)
     addMessagesPerHour(message)
@@ -80,13 +85,17 @@ function getMessagesPerMinute(minutes) {
 }
 
 
+function restoreMessagePerHour(hour, value) {
+    messagesPerHoursHistory.set(hour, value)
+}
 
 
 
 // fonction s'éxéutant toute les secondes
 
-function mafonction() {
-    // on récup les minutes d'aujourd'hui
+function everySeconds() {
+    if (!loadFinished) return
+        // on récup les minutes d'aujourd'hui
     var minutes = getMinutes()
     let hour = getHours()
 
@@ -101,7 +110,6 @@ function mafonction() {
 
     //on reset tout à minuit 
     if (minutes == 0) {
-        messagesPerHoursHistory.clear()
         messagesPerMinutesHistory.clear()
     }
 
@@ -116,14 +124,6 @@ function mafonction() {
     messagesPerHoursHistory.set(hour, hourresult)
 
 
-
-
-
-
-
-
-
-
     // on ajoute les messages passés dans l'historique
     messagesPerMinutesHistory.set(minutes, getMessagesPerMinute(minutes))
 
@@ -131,7 +131,23 @@ function mafonction() {
     // go back in hour   console.log(Math.floor(minutes / 60) + "h" + minutes % 60)
 
 }
-setInterval(mafonction, 1000);
+setInterval(everySeconds, 1000);
+
+
+function everyMinutes() {
+    if (!loadFinished) return
+
+    let save = []
+        //   console.log(messagesPerHoursHistory)
+
+    for (var [hour, value] of messagesPerHoursHistory) {
+        save.push({ "hour": hour, "value": value })
+    }
+    sql.saveStats(config.client_id, JSON.stringify(save), (err, result) => {})
+}
+setInterval(everyMinutes, 60000);
+
+
 
 
 
@@ -162,5 +178,11 @@ function getHours() {
 }
 
 
+function setLoadStatus(status) {
+    console.log("setLoadStatus " + status)
 
-module.exports = { addMessage, getMessagesPerMinute, getMessagesPerMinuteHistory, getMinutes, getHours, getMessagesPerHourHistory }
+    loadFinished = status
+
+}
+
+module.exports = { addMessage, getMessagesPerMinute, getMessagesPerMinuteHistory, getMinutes, getHours, getMessagesPerHourHistory, restoreMessagePerHour, setLoadStatus }

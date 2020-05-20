@@ -5,6 +5,7 @@ const chalk = new colorchalk.constructor({ level: 3 });
 const moment = require("moment");
 const db = require("../db.js")
 const stats = require("../modules/stats")
+let notxtmodule = require("../modules/notxt")
 module.exports = async(client, message) => {
 
 
@@ -59,6 +60,18 @@ module.exports = async(client, message) => {
         moment.locale("fr");
         if (message.author.bot) return;
         const prefixes = [customPrefix, `<@!${client.user.id}>`, `<@!${client.user.id}> `, 'c!'];
+
+
+
+        notxtmodule.run(client, message, customPrefix, results).catch(warning => {
+            message.channel.send("Une erreur a eu lieu avec cette commande, le créateur a été avertit de ceci.");
+            console.log(chalk.red(`Une petite erreur a été faite quelque part avec le module notxt \nHeure : ` + moment().format('LLLL') +
+                "\nErreur : " + warning.stack));
+        });
+
+
+
+
         let prefix = false;
         for (const thisPrefix of prefixes) {
             if (message.content.startsWith(thisPrefix)) prefix = thisPrefix;

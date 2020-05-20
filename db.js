@@ -52,7 +52,10 @@ handleDisconnect(); // on lance la fonction pour la première fois
 let guildTable = `create table if not exists guildSettings(
         guildId varchar(255) COLLATE latin1_bin primary key not null,
         prefix varchar(255),
-        autoRole varchar(255)
+        autoRole text COLLATE utf8mb4_bin,
+        no_txt text COLLATE utf8mb4_bin,
+        updatedAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        createdAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
     )`;
 
 connection.query(guildTable, function(err, results, fields) {
@@ -62,6 +65,19 @@ connection.query(guildTable, function(err, results, fields) {
 });
 
 
+
+let botTable = `create table if not exists botSettings(
+    bot_id varchar(255) COLLATE latin1_bin primary key not null,
+    statsSave text COLLATE utf8mb4_bin,
+    updatedAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    createdAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+)`;
+
+connection.query(botTable, function(err, results, fields) {
+    if (err) {
+        console.log(err.message);
+    }
+});
 
 let usernameTable = `create table if not exists userNameLogger(
   id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,

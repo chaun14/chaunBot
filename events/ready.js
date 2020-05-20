@@ -5,6 +5,8 @@ const Discord = require("discord.js");
 const chalk = new colorchalk.constructor({ level: 3 });
 const moment = require("moment");
 const db = require("../db.js")
+const sql = require("../modules/sql")
+const stats = require("../modules/stats")
 var SqlString = require('sqlstring');
 
 module.exports = async(client) => {
@@ -17,6 +19,9 @@ module.exports = async(client) => {
     await client.website.load(client);
 
     console.log('\n_________ .__                       __________        __   \n\\_   ___ \\|  |__ _____   __ __  ____\\______   \\ _____\/  |_ \n\/    \\  \\\/|  |  \\\\__  \\ |  |  \\\/    \\|    |  _\/\/  _ \\   __\\\n\\     \\___|   Y  \\\/ __ \\|  |  \/   |  \\    |   (  <_> )  |  \n \\______  \/___|  (____  \/____\/|___|  \/______  \/\\____\/|__|  \n        \\\/     \\\/     \\\/           \\\/       \\\/             \n'.brightWhite.bold)
+
+
+    restoreStats(client, db)
 
     updateUsername(client, db)
 
@@ -96,4 +101,23 @@ async function updateUsername(client, db) {
 
 
     })
+}
+
+
+function restoreStats(client, db) {
+    sql.getStats(client.user.id, (err, results) => {
+        if (results[0].statsSave == null) return
+
+
+        let statsSave = JSON.parse(results[0].statsSave)
+
+        statsSave.forEach(stat => {
+
+            stats.restoreMessagePerHour(stat.hour, stat.value)
+
+        })
+        console.log(statsSave)
+        stats.setLoadStatus(true)
+    })
+
 }
