@@ -46,11 +46,13 @@ module.exports.run = async(client, message, args) => {
                 }
 
                 results.forEach(pseudo => {
+                    let actionMessage = "détecté le";
+                    console.log(pseudo.reason)
+                    if (pseudo.reason == "ajout par userupdate") {
+                        actionMessage = "changé le";
+                    }
 
-                    // console.log(pseudo.newUsername)
-
-                    //message.reply(pseudo.newUsername)
-                    pseudos = pseudos + "`" + pseudo.newUsername + "` *changé le " + moment(pseudo.updateDate).format("D/MM/YY à HH:mm") + "*\n"
+                    pseudos = pseudos + "`" + pseudo.newUsername + "` *" + actionMessage + " " + moment(pseudo.updateDate).format("D/MM/YY à HH:mm") + "*\n"
                 });
                 var hasteLink = "erreur";
 
@@ -131,10 +133,13 @@ ORDER BY updateDate ASC
 
                 results.forEach(pseudo => {
 
-                    // console.log(pseudo.newUsername)
+                    let actionMessage = "détecté le";
+                    console.log(pseudo.reason)
+                    if (pseudo.reason == "ajout par userupdate") {
+                        actionMessage = "changé le";
+                    }
 
-                    //message.reply(pseudo.newUsername)
-                    pseudos = pseudos + "`" + pseudo.newUsername + "` *changé le " + moment(pseudo.updateDate).format("D/MM/YY à HH:mm") + "*\n"
+                    pseudos = pseudos + "`" + pseudo.newUsername + "` *" + actionMessage + " " + moment(pseudo.updateDate).format("D/MM/YY à HH:mm") + "*\n"
                 });
                 var hasteLink = "erreur";
 

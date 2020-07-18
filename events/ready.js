@@ -12,7 +12,7 @@ var SqlString = require('sqlstring');
 module.exports = async(client) => {
     console.log(chalk.greenBright(`${__filename.slice(__dirname.length + 1)}`) + chalk.reset(` : ${chalk.yellowBright(client.user.tag)} est allumé et présent sur ${chalk.magentaBright(client.guilds.cache.size)} serveurs avec ${client.users.cache.size} utilisateurs`));
 
-    client.user.setActivity(`bientôt de retour`, { type: 'STREAMING', url: 'https://www.twitch.tv/ftnl' });
+    client.user.setActivity(`beeeeh 🐑 | c!help`, { type: 'STREAMING', url: 'https://www.twitch.tv/ftnl' });
 
 
 
