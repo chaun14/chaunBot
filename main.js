@@ -1,9 +1,11 @@
 const Discord = require("discord.js");
 const Enmap = require("enmap");
 const fs = require("fs");
+const colors = require('colors');
 const chalk = require("chalk");
-const client = new Discord.Client();
+const recursive = require("recursive-readdir");
 
+const client = new Discord.Client();
 const configBOT = require("./informations/config");
 client.login(configBOT.token);
 
@@ -12,76 +14,91 @@ const webhook = require('discord-webhook-node');
 const hook = new webhook.Webhook(configBOT.logWebhook);
 
 
+// on met le dasboard dans l'objet client pour pouvoir le lancer quand le bot est pret
+client.website = require("./dashboard/dashboard.js");
 
-client.website = require("./dashboard/dashboard.js")
 
-client.writeFile = (path, object) => {
-    fs.writeFile(path, JSON.stringify(object, null, 4), err => {
-        if (err) return console.error(chalk.red("Une erreur au moment d'enregistrer un fichier est arrivée :\n\n" + err.stack));
-    });
-}
-
-let numberFiles = 0,
-    events, commands;
-
-// Chargement des fichiers JSONS.
-fs.readdir("./informations/", (err, files) => {
-    console.log(chalk.red.bold("\n\nLancement du bot.\n\n"));
-    if (err) return console.error(err);
-    files.forEach(file => {
-        if (!file.endsWith(".json")) return;
-        console.log(chalk.white(`Fichier externe : `) + chalk.redBright(`${file}`));
-    });
-    numberFiles += files.length - 2;
-});
-
-// Chargement des évènements.
-fs.readdir("./events/", (err, files) => {
-    if (err) return console.error(err);
-    console.log(`\nÉvènements : (` + chalk.magenta.bold(`${files.length}`) + ")");
-    events = files.length;
-    files.forEach(file => {
-        if (!file.endsWith(".js")) return;
-        const event = require(`./events/${file}`);
-        let eventName = file.split(".")[0];
-        client.on(eventName, event.bind(null, client));
-        delete require.cache[require.resolve(`./events/${file}`)];
-
-        console.log(chalk.white(`Chargement de l'évènement : `) + chalk.redBright(`${eventName}`));
-    });
-
-    numberFiles += files.length;
-});
-
+// déclare quelques objets de fonctionnement du command handler
+let fileNumber = 0;
 client.commands = new Enmap();
 client.aliases = new Enmap();
 
-// Chargement des commandes.
-fs.readdir("./commands/", (err, files) => {
 
+// on lis notre dossier event pour extraire les event et les bind
+fs.readdir('./events/', (err, files) => {
+    console.log(("\n\nLancement du bot.\n\n").brightRed);
+
+    console.log(`\nÉvènements : (` +
+        `${files.length}`.bold.yellow + ")");
+
+    // les erreurs c'est méchant on les attrapes
     if (err) return console.error(err);
-    console.log(`\nCommandes : (` + chalk.magenta.bold(`${files.length}`) + ")");
-    commands = files.length;
-    if (files.length <= 0) return console.log(chalk.red("== ERREUR ==\n\n Fichier : index.js \nAucun fichiers de commandes n'a été trouvé."));
+
+    // pour chaque fichier d'event
     files.forEach(file => {
 
-        if (!file.endsWith("js")) return;
-        let props = require(`./commands/${file}`);
-        let commandName = props.config.name;
-        client.commands.set(commandName, props);
+        // on vérif que c'est bien un .js
+        if (!file.endsWith('.js')) return
+
+        // on get son chemin
+        const event = require(`./events/${file}`);
+
+        // on récup juste son nom
+        let eventName = file.split('.')[0];
+
+        // et on le bind à notre event discord.js en fonction de son nom
+        client.on(eventName, event.bind(null, client))
+        console.log((`Chargement de l'évènement : `).white + (`${eventName}`).blue);
+
+        fileNumber = fileNumber + 1;
+    })
+
+})
+
+
+// on cherche tous les .js dans le dossier commands
+recursive('./commands/', (err, files) => {
+    // les erreurs c'est mal
+    if (err) return console.error(err);
+
+    console.log(`\n\nCommandes : (` +
+        `${files.length}`.bold.yellow + ")");
+
+    // pour chaque commande trouvée
+    files.forEach(file => {
+
+        // on vérif que c'est bien un .js
+        if (!file.endsWith('.js')) return
+
+        // on récup le chemin
+        let props = require(`./${file}`);
+
+        // on récupère le nom du fichier dans le chemin
+        let commandName = file.split(/\\/g).reverse()[0];
+        commandName = commandName.split('.')[0];
+
+        // on met dans notre objet le nom de la commande ainsi que son chemin
+        client.commands.set(commandName.toLowerCase(), props);
+
+        // on met dans l'objet des alias les différents alias de la commande
         props.config.aliases.forEach(alias => {
-            client.aliases.set(alias, props.config.name);
+            client.aliases.set(alias.toLowerCase(), props.config.name.toLowerCase());
         });
 
-
+        // on formatte la liste des alias pour que ça soit plus joli à log
         let aliases = props.config.aliases.map(e => e.toString()).join(", ");
-        console.log(chalk.white(`Chargement de la commande : `) + chalk.redBright(`${commandName}`));
-        console.log(chalk.white(`Raccourcis : `) + chalk.cyan(`${aliases}\n`));
-    });
+        // on log
+        console.log(`Chargement de la commande : ` + `${commandName}`.brightRed);
+        console.log(`Raccourcis : ` + `${aliases}`.cyan);
+        fileNumber = fileNumber + 1;
+    })
+    console.log(`\nChargement de ` + `${fileNumber}`.yellow + ` fichiers au total.`);
+})
 
-    numberFiles += files.length;
-    console.log(chalk.white(`Chargement total de `) + chalk.magenta.bold(`${numberFiles}`) + chalk.white(` fichiers dont ${chalk.magenta.bold(commands)} commandes et ${chalk.magenta.bold(events)} évènements.`));
-});
+
+// on dit bonjour poliment à discord
+client.login(configBOT.token);
+
 
 client.on("error", (e) => {
     hook.error('**Bot error**', 'quelque chose s\'est mal passé avec le bot', e.message).catch(err => console.log(err.message));
