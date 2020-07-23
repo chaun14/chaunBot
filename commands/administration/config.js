@@ -1,6 +1,6 @@
-const db = require("../db.js")
+const db = require("../../db.js")
 const Discord = require("discord.js");
-const sql = require("../modules/sql")
+const sql = require("../../modules/sql")
 
 module.exports.run = async(client, message, args) => {
 

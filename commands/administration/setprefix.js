@@ -1,4 +1,4 @@
-const db = require("../db.js")
+const db = require("../../db.js")
 const Discord = require("discord.js");
 var SqlString = require('sqlstring');
 
