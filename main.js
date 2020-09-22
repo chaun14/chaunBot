@@ -74,7 +74,8 @@ recursive('./commands/', (err, files) => {
         let props = require(`./${file}`);
 
         // on récupère le nom du fichier dans le chemin
-        let commandName = file.split(/\\/g).reverse()[0];
+        let filePath = file.replace(/\\/g, "/")
+        let commandName = filePath.split(/\//g).reverse()[0];
         commandName = commandName.split('.')[0];
 
         // on met dans notre objet le nom de la commande ainsi que son chemin
