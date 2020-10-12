@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const Enmap = require("enmap");
 const fs = require("fs");
 const colors = require('colors');
 const chalk = require("chalk");
@@ -20,8 +19,8 @@ client.website = require("./dashboard/dashboard.js");
 
 // déclare quelques objets de fonctionnement du command handler
 let fileNumber = 0;
-client.commands = new Enmap();
-client.aliases = new Enmap();
+client.commands = new Map();
+client.aliases = new Map();
 
 
 // on lis notre dossier event pour extraire les event et les bind
