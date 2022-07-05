@@ -1,6 +1,6 @@
 {
     "dependencies": {
-        "@discordjs/opus": "^0.3.2",
+        "@discordjs/opus": "^0.8.0",
         "body-parser": "^1.19.0",
         "chalk": "~2.4.2",
         "colors": "^1.4.0",
